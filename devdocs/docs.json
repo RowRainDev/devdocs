@@ -1,0 +1,22 @@
+{
+  "platform": {
+    "name": "Platform Adı",
+    "icon": "🚀",
+    "subcategories": {
+      "kategori": {
+        "name": "Kategori Adı",
+        "icon": "📘",
+        "docs": [
+          {
+            "id": "ornek-id",
+            "title": "Doküman Başlığı",
+            "tags": ["etiket1", "etiket2"],
+            "labels": ["label1"],
+            "description": "<p>Açıklama</p>",
+            "code": "// örnek kod"
+          }
+        ]
+      }
+    }
+  }
+}
