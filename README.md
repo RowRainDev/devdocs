@@ -34,6 +34,9 @@ bundan kullanmanız önerilir.
 > ⚠️ **ÖNEMLİ:**  
 > Proje **dosya olarak açılarak çalışmaz**.  
 > Bir web sunucusu üzerinden çalıştırılmalıdır.
+> örnek; Nginx, Nodejs, Apache
+> Local'de çalıştırmak için; `npx http-server` Kullanabilirsiniz.
+> Terminale ama projenin dosyasında olmanız lazım. `cd devdocs`
 
 ### 1️⃣ Projeyi klonla
 ```bash
