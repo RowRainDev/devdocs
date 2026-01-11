@@ -6,6 +6,10 @@ JSON tabanlı **özel bir dokümantasyon oluşturma ve görüntüleme sistemidir
 Proje; farklı platformlar, projeler ve teknolojiler için dokümanları  
 tek bir yapı altında, modern bir arayüzle sunmayı hedefler.
 
+Bu proje sayesinde yazılımda öğreniminizi kendi öğrendiğiniz bilgilere 
+veya olmayan içerikleri kendinize uygun adapte edebilceğiniz bir sistemdir.
+bundan kullanmanız önerilir.
+
 ---
 
 ## ✨ Özellikler
