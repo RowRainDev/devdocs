@@ -207,7 +207,7 @@
         .content {
             flex: 1;
             padding: 3rem;
-            overflow-y: auto;
+            /* overflow-y: auto kaldırıldı - bu window scroll ile çakışıyordu */
         }
 
         .breadcrumb {
@@ -879,23 +879,34 @@
 
         // Dokümana kaydır
         function scrollToDoc(docId) {
-            const targetDoc = document.querySelector(`[data-doc-id="${docId}"]`);
-            if (targetDoc) {
+            // requestAnimationFrame ile DOM güncellemelerinin tamamlanmasını bekle
+            requestAnimationFrame(() => {
+                const targetDoc = document.querySelector(`[data-doc-id="${docId}"]`);
+                if (!targetDoc) {
+                    console.log('[v0] Target doc not found:', docId);
+                    return;
+                }
+                
                 // Nav item'ları güncelle
                 document.querySelectorAll('.doc-nav-item').forEach(el => el.classList.remove('active'));
                 const activeNav = document.querySelector(`[data-doc="${docId}"]`);
                 if (activeNav) activeNav.classList.add('active');
                 
-                // Header yüksekliğini hesapla ve doğru pozisyona scroll yap
+                // Header yüksekliğini al
                 const header = document.querySelector('.header');
-                const headerHeight = header ? header.offsetHeight : 70;
-                const targetPosition = targetDoc.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                const headerHeight = header ? header.getBoundingClientRect().height : 70;
                 
+                // Element pozisyonunu hesapla
+                const rect = targetDoc.getBoundingClientRect();
+                const absoluteTop = rect.top + window.scrollY;
+                const targetPosition = absoluteTop - headerHeight - 20;
+                
+                // Scroll yap
                 window.scrollTo({
-                    top: targetPosition,
+                    top: Math.max(0, targetPosition),
                     behavior: 'smooth'
                 });
-            }
+            });
         }
 
         // Boş durum
@@ -1088,10 +1099,12 @@
                         renderPlatforms();
                     }
                     
-                    // Sonra dokümana scroll yap
+                    // Sonra dokümana scroll yap - DOM'un tamamen yüklenmesini bekle
                     setTimeout(() => {
-                        scrollToDoc(docId);
-                    }, 100);
+                        requestAnimationFrame(() => {
+                            scrollToDoc(docId);
+                        });
+                    }, 150);
                     
                     searchResults.classList.remove('active');
                     searchBox.value = '';
