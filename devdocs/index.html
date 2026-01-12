@@ -723,6 +723,7 @@
         let currentDocs = [];
         let tags = [];
         let labels = [];
+        let docsNavListenerAttached = false;
 
         // JSON dosyasını yükle
         async function loadDocsData() {
@@ -864,21 +865,36 @@
                 `;
             }).join('');
 
-            document.querySelectorAll('.doc-nav-item').forEach(navItem => {
-                navItem.addEventListener('click', () => {
-                    scrollToDoc(navItem.dataset.doc);
+            // Event listener sadece bir kez ekleniyor
+            if (!docsNavListenerAttached) {
+                docsNavList.addEventListener('click', (e) => {
+                    const navItem = e.target.closest('.doc-nav-item');
+                    if (navItem && navItem.dataset.doc !== undefined) {
+                        scrollToDoc(navItem.dataset.doc);
+                    }
                 });
-            });
+                docsNavListenerAttached = true;
+            }
         }
 
         // Dokümana kaydır
         function scrollToDoc(docId) {
             const targetDoc = document.querySelector(`[data-doc-id="${docId}"]`);
             if (targetDoc) {
+                // Nav item'ları güncelle
                 document.querySelectorAll('.doc-nav-item').forEach(el => el.classList.remove('active'));
-                document.querySelector(`[data-doc="${docId}"]`).classList.add('active');
-                targetDoc.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                setTimeout(() => window.scrollBy({ top: -80, behavior: 'smooth' }), 300);
+                const activeNav = document.querySelector(`[data-doc="${docId}"]`);
+                if (activeNav) activeNav.classList.add('active');
+                
+                // Header yüksekliğini hesapla ve doğru pozisyona scroll yap
+                const header = document.querySelector('.header');
+                const headerHeight = header ? header.offsetHeight : 70;
+                const targetPosition = targetDoc.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
             }
         }
 
@@ -1012,12 +1028,30 @@
                 }
 
                 const results = [];
-                currentDocs.forEach((doc, index) => {
-                    const searchText = (doc.title + ' ' + doc.tags.join(' ')).toLowerCase();
-                    const score = fuzzySearch(query, searchText);
-                    if (score > 0) {
-                        results.push({ doc, index, score });
-                    }
+                Object.keys(docsData).forEach(platformKey => {
+                    const platform = docsData[platformKey];
+                    Object.keys(platform.subcategories).forEach(subcatKey => {
+                        const subcat = platform.subcategories[subcatKey];
+                        if (subcat.docs) {
+                            subcat.docs.forEach((doc, index) => {
+                                const searchText = (doc.title + ' ' + doc.tags.join(' ')).toLowerCase();
+                                const score = fuzzySearch(query, searchText);
+                                if (score > 0) {
+                                    results.push({ 
+                                        doc, 
+                                        index, 
+                                        score, 
+                                        platformKey, 
+                                        subcatKey,
+                                        platformName: platform.name,
+                                        platformIcon: platform.icon,
+                                        subcatName: subcat.name,
+                                        subcatIcon: subcat.icon
+                                    });
+                                }
+                            });
+                        }
+                    });
                 });
 
                 results.sort((a, b) => b.score - a.score);
@@ -1027,31 +1061,40 @@
                 } else {
                     searchResults.innerHTML = results.slice(0, 5).map(r => {
                         const escapedTitle = escapeHtml(r.doc.title);
-                        const platformName = escapeHtml(docsData[currentPlatform].name);
-                        const subcatName = escapeHtml(docsData[currentPlatform].subcategories[currentSubcategory].name);
                         return `
-                            <div class="search-result-item" data-doc-id="${r.index}">
+                            <div class="search-result-item" data-platform="${r.platformKey}" data-subcat="${r.subcatKey}" data-doc-id="${r.index}">
                                 <div class="result-title">${escapedTitle}</div>
-                                <div class="result-breadcrumb">${docsData[currentPlatform].icon} ${platformName} / ${docsData[currentPlatform].subcategories[currentSubcategory].icon} ${subcatName}</div>
+                                <div class="result-breadcrumb">${r.platformIcon} ${escapeHtml(r.platformName)} / ${r.subcatIcon} ${escapeHtml(r.subcatName)}</div>
                             </div>
                         `;
                     }).join('');
-
-                    document.querySelectorAll('.search-result-item[data-doc-id]').forEach(item => {
-                        item.addEventListener('click', () => {
-                            scrollToDoc(item.dataset.docId);
-                            searchResults.classList.remove('active');
-                            searchBox.value = '';
-                        });
-                    });
                 }
 
                 searchResults.classList.add('active');
             });
 
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.search-container')) {
+            searchResults.addEventListener('click', (e) => {
+                const item = e.target.closest('.search-result-item[data-doc-id]');
+                if (item) {
+                    const platformKey = item.dataset.platform;
+                    const subcatKey = item.dataset.subcat;
+                    const docId = item.dataset.docId;
+                    
+                    // Önce doğru platforma ve kategoriye git
+                    if (platformKey !== currentPlatform || subcatKey !== currentSubcategory) {
+                        currentPlatform = platformKey;
+                        currentSubcategory = subcatKey;
+                        loadContent(platformKey, subcatKey);
+                        renderPlatforms();
+                    }
+                    
+                    // Sonra dokümana scroll yap
+                    setTimeout(() => {
+                        scrollToDoc(docId);
+                    }, 100);
+                    
                     searchResults.classList.remove('active');
+                    searchBox.value = '';
                 }
             });
 
