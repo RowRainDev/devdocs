@@ -25,7 +25,7 @@ bundan kullanmanız önerilir.
 
 ## 🎉 Görseller
 ![DevDocs](http://web.raincloud.com.tr:40006/download.php?id=17697251327039&file=Capture_1769725132_52d01c2d.png&access=1)
-![DevDocs](http://web.raincloud.com.tr:40006/download.php?id=17697252025194&file=Capture_1769725202_51e0d360.png&access=0)
+![DevDocs](http://web.raincloud.com.tr:40006/download.php?id=17697252025194&file=Capture_1769725202_51e0d360.png&access=1)
 
 ---
 
