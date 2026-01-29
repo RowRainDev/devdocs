@@ -125,12 +125,10 @@
             padding: 12px 16px;
             cursor: pointer;
             border-bottom: 1px solid #111;
-            transition: background 0.15s ease;
-            will-change: background;
         }
 
         .search-result-item:hover {
-            background: linear-gradient(135deg, rgba(168,85,247,0.05) 0%, transparent 50%);
+            background: rgba(168,85,247,0.08);
         }
 
         .search-result-item:last-child { border-bottom: none; }
@@ -193,7 +191,6 @@
         .category-item {
             padding: 12px 20px;
             cursor: pointer;
-            transition: color 0.2s ease, background 0.2s ease;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -201,7 +198,6 @@
             font-size: 13px;
             font-weight: 500;
             position: relative;
-            will-change: color, background;
         }
 
         .category-item::before {
@@ -212,7 +208,6 @@
             bottom: 0;
             width: 2px;
             background: transparent;
-            transition: background 0.2s ease;
         }
 
         .category-item:hover {
@@ -236,7 +231,6 @@
         .subcategory-item {
             padding: 10px 20px 10px 36px;
             cursor: pointer;
-            transition: color 0.15s ease;
             color: #555;
             font-size: 12px;
         }
@@ -247,7 +241,6 @@
         .doc-nav-item {
             padding: 10px 20px;
             cursor: pointer;
-            transition: color 0.15s ease, border-color 0.15s ease;
             color: #555;
             font-size: 12px;
             border-left: 2px solid transparent;
@@ -290,31 +283,13 @@
             border-radius: 12px;
             padding: 28px;
             margin-bottom: 20px;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
             position: relative;
             overflow: hidden;
-            will-change: border-color, box-shadow;
-            transform: translateZ(0);
-        }
-
-        .doc-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(168,85,247,0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
         .doc-item:hover {
             border-color: #222;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
         }
-
-        .doc-item:hover::before { opacity: 1; }
 
         .doc-title {
             color: #fff;
@@ -895,15 +870,17 @@
                 const item = e.target.closest('.search-result-item[data-doc-id]');
                 if (item) {
                     const { platform, subcat, docId } = item.dataset;
+                    DOM.searchResults.classList.remove('active');
+                    DOM.searchBox.value = '';
+                    
                     if (platform !== currentPlatform || subcat !== currentSubcategory) {
                         currentPlatform = platform;
                         currentSubcategory = subcat;
-                        loadContent(platform, subcat);
+                        loadContent(platform, subcat, docId);
                         renderPlatforms();
+                    } else {
+                        scrollToDoc(docId);
                     }
-                    setTimeout(() => scrollToDoc(docId), 100);
-                    DOM.searchResults.classList.remove('active');
-                    DOM.searchBox.value = '';
                 }
             });
 
@@ -979,7 +956,7 @@
             DOM.searchResults.classList.add('active');
         }
 
-        function loadContent(platform, subcategory) {
+        function loadContent(platform, subcategory, scrollToDocId = null) {
             const data = docsData[platform]?.subcategories?.[subcategory];
             if (!data?.docs?.length) {
                 showEmptyState(docsData[platform].name);
@@ -995,8 +972,13 @@
                 </div>
                 <div id="docsList">${renderDocsList(currentDocs)}</div>
             `;
-            renderDocsNav(currentDocs);
-            requestAnimationFrame(() => Prism.highlightAll());
+            renderDocsNav(currentDocs, scrollToDocId);
+            requestAnimationFrame(() => {
+                Prism.highlightAll();
+                if (scrollToDocId !== null) {
+                    scrollToDoc(scrollToDocId);
+                }
+            });
         }
 
         function renderDocsList(docs) {
@@ -1010,38 +992,28 @@
             `).join('');
         }
 
-        function renderDocsNav(docs) {
+        function renderDocsNav(docs, activeDocId = null) {
+            const activeId = activeDocId !== null ? parseInt(activeDocId, 10) : 0;
             DOM.docsNavList.innerHTML = docs.map((doc, i) => `
-                <div class="doc-nav-item ${i === 0 ? 'active' : ''}" data-doc="${i}">
+                <div class="doc-nav-item ${i === activeId ? 'active' : ''}" data-doc="${i}">
                     ${escapeHtml(doc.title.split(' - ')[0])}
                 </div>
             `).join('');
         }
 
-        // Cache header height
-        let cachedHeaderHeight = null;
-        function getHeaderHeight() {
-            if (cachedHeaderHeight === null) {
-                cachedHeaderHeight = document.querySelector('.header')?.offsetHeight || 60;
-            }
-            return cachedHeaderHeight;
-        }
-
         function scrollToDoc(docId) {
-            const targetDoc = document.querySelector(`[data-doc-id="${docId}"]`);
+            const id = parseInt(docId, 10);
+            const targetDoc = document.querySelector(`.doc-item[data-doc-id="${id}"]`);
             if (!targetDoc) return;
             
-            // Batch DOM reads/writes
+            // Update nav active state
             const navItems = DOM.docsNavList.querySelectorAll('.doc-nav-item');
-            const activeNav = DOM.docsNavList.querySelector(`[data-doc="${docId}"]`);
+            navItems.forEach(el => el.classList.remove('active'));
+            const activeNav = DOM.docsNavList.querySelector(`.doc-nav-item[data-doc="${id}"]`);
+            if (activeNav) activeNav.classList.add('active');
             
-            requestAnimationFrame(() => {
-                navItems.forEach(el => el.classList.remove('active'));
-                if (activeNav) activeNav.classList.add('active');
-                
-                const targetPosition = targetDoc.getBoundingClientRect().top + window.scrollY - getHeaderHeight() - 20;
-                window.scrollTo({ top: Math.max(0, targetPosition), behavior: 'smooth' });
-            });
+            // Scroll to element - use scrollIntoView for better performance
+            targetDoc.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function showEmptyState(name) {
