@@ -3,32 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevDocs ・ Dokümantasyon</title>
+    <title>DevDocs - Dokümantasyon</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000000;
-            color: #c9d1d9;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: #000; 
+            color: #888; 
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2a2a2a; }
 
+        /* HEADER */
         .header {
-            background: #000000;
-            border-bottom: 1px solid #30363d;
-            padding: 1rem 2rem;
+            background: linear-gradient(180deg, #080808 0%, #030303 100%);
+            border-bottom: 1px solid #111;
+            padding: 18px 28px;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(168,85,247,0.3) 30%, rgba(236,72,153,0.3) 70%, transparent);
         }
 
         .header-content {
@@ -37,287 +51,383 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 24px;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #faefff;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
             text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
         }
+        
+        .logo::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #a855f7;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(168,85,247,0.8);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .search-container {
             flex: 1;
-            max-width: 500px;
-            margin: 0 2rem;
+            max-width: 400px;
             position: relative;
         }
 
         .search-box {
             width: 100%;
-            padding: 0.7rem 1rem;
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            color: #c9d1d9;
-            font-size: 0.95rem;
-            transition: all 0.3s;
+            padding: 11px 16px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 12px;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
 
         .search-box:focus {
             outline: none;
-            border-color: #9b58ff;
-            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+            border-color: #333;
+            box-shadow: 0 0 20px rgba(168,85,247,0.1);
         }
+
+        .search-box::placeholder { color: #444; }
 
         .search-results {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 8px);
             left: 0;
             right: 0;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            margin-top: 0.5rem;
-            max-height: 400px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+            border: 1px solid #1a1a1a;
+            border-radius: 10px;
+            max-height: 350px;
             overflow-y: auto;
             display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
-        .search-results.active {
-            display: block;
-        }
+        .search-results.active { display: block; }
 
         .search-result-item {
-            padding: 0.8rem 1rem;
+            padding: 12px 16px;
             cursor: pointer;
-            border-bottom: 1px solid #30363d;
-            transition: background 0.2s;
+            border-bottom: 1px solid #111;
+            transition: background 0.15s ease;
+            will-change: background;
         }
 
         .search-result-item:hover {
-            background: #000000;
+            background: linear-gradient(135deg, rgba(168,85,247,0.05) 0%, transparent 50%);
         }
 
+        .search-result-item:last-child { border-bottom: none; }
+
         .result-title {
-            color: #be1eef;
+            color: #a855f7;
             font-weight: 600;
-            margin-bottom: 0.3rem;
+            font-size: 13px;
+            margin-bottom: 4px;
         }
 
         .result-breadcrumb {
-            font-size: 0.85rem;
-            color: #8b949e;
+            font-size: 11px;
+            color: #555;
         }
 
+        /* LAYOUT */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
-            min-height: calc(100vh - 70px);
+            flex: 1;
+            width: 100%;
         }
 
+        /* SIDEBAR */
         .sidebar {
-            width: 280px;
-            background: #000000;
-            border-right: 1px solid #30363d;
-            padding: 2rem 0;
-            overflow-y: auto;
+            width: 260px;
+            background: linear-gradient(180deg, #050505 0%, #000 100%);
+            border-right: 1px solid #111;
+            padding: 20px 0;
             position: sticky;
-            top: 70px;
-            height: calc(100vh - 70px);
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        
+        .sidebar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(255,255,255,0.03) 50%, transparent);
         }
 
-        .sidebar-section {
-            margin-bottom: 1.5rem;
-        }
+        .sidebar-section { margin-bottom: 24px; }
 
         .sidebar-title {
-            padding: 0.5rem 1.5rem;
-            color: #8b949e;
-            font-size: 0.8rem;
+            padding: 8px 20px;
+            color: #444;
+            font-size: 10px;
             text-transform: uppercase;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 1.5px;
         }
 
         .category-item {
-            padding: 0.7rem 1.5rem;
+            padding: 12px 20px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: color 0.2s ease, background 0.2s ease;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            color: #c9d1d9;
+            gap: 10px;
+            color: #666;
+            font-size: 13px;
+            font-weight: 500;
+            position: relative;
+            will-change: color, background;
+        }
+
+        .category-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: transparent;
+            transition: background 0.2s ease;
         }
 
         .category-item:hover {
-            background: #000000;
-            border-left: 3px solid #db58ff;
-            padding-left: calc(1.5rem - 3px);
+            color: #fff;
+            background: linear-gradient(90deg, rgba(168,85,247,0.05) 0%, transparent 100%);
+        }
+
+        .category-item:hover::before {
+            background: linear-gradient(180deg, #a855f7, #ec4899);
         }
 
         .category-item.active {
-            background: #000000;
-            border-left: 3px solid #a958ff;
-            padding-left: calc(1.5rem - 3px);
-            color: #a358ff;
+            color: #fff;
+            background: linear-gradient(90deg, rgba(168,85,247,0.1) 0%, transparent 100%);
+        }
+
+        .category-item.active::before {
+            background: linear-gradient(180deg, #a855f7, #ec4899);
         }
 
         .subcategory-item {
-            padding: 0.6rem 1.5rem 0.6rem 2.5rem;
+            padding: 10px 20px 10px 36px;
             cursor: pointer;
-            transition: all 0.2s;
-            color: #8b949e;
-            font-size: 0.9rem;
+            transition: color 0.15s ease;
+            color: #555;
+            font-size: 12px;
         }
 
-        .subcategory-item:hover {
-            background: #000000;
-            color: #a658ff;
-        }
-
-        .subcategory-item.active {
-            color: #9e58ff;
-            background: #000000;
-        }
+        .subcategory-item:hover { color: #a855f7; }
+        .subcategory-item.active { color: #a855f7; }
 
         .doc-nav-item {
-            padding: 0.7rem 1.5rem;
+            padding: 10px 20px;
             cursor: pointer;
-            transition: all 0.2s;
-            color: #8b949e;
-            font-size: 0.9rem;
+            transition: color 0.15s ease, border-color 0.15s ease;
+            color: #555;
+            font-size: 12px;
             border-left: 2px solid transparent;
         }
 
         .doc-nav-item:hover {
-            background: #000000;
-            color: #9b58ff;
-            border-left-color: #ca58ff;
+            color: #a855f7;
+            border-left-color: #a855f7;
         }
 
         .doc-nav-item.active {
-            color: #b158ff;
-            background: #000000;
-            border-left-color: #b158ff;
+            color: #a855f7;
+            border-left-color: #a855f7;
         }
 
+        /* CONTENT */
         .content {
             flex: 1;
-            padding: 3rem;
-            /* overflow-y: auto kaldırıldı - bu window scroll ile çakışıyordu */
+            padding: 32px;
+            min-width: 0;
         }
 
         .breadcrumb {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: #8b949e;
+            gap: 8px;
+            margin-bottom: 28px;
+            font-size: 11px;
+            color: #555;
             flex-wrap: wrap;
-        }
-
-        .breadcrumb-item {
-            display: flex;
             align-items: center;
-            gap: 0.5rem;
         }
 
-        .breadcrumb-separator {
-            color: #30363d;
-        }
+        .breadcrumb-item { display: flex; align-items: center; gap: 8px; }
+        .breadcrumb-separator { color: #333; }
 
+        /* DOC ITEMS */
         .doc-item {
-            background: linear-gradient(135deg, #080510, #1a0f2b);
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: all 0.3s;
+            background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+            border: 1px solid #151515;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            will-change: border-color, box-shadow;
+            transform: translateZ(0);
+        }
+
+        .doc-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(168,85,247,0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .doc-item:hover {
-            border-color: #b958ff;
-            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
+            border-color: #222;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
         }
 
+        .doc-item:hover::before { opacity: 1; }
+
         .doc-title {
-            color: #a058ff;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 12px;
             font-weight: 600;
+            letter-spacing: -0.5px;
         }
 
         .doc-description {
-            color: #c9d1d9;
-            margin-bottom: 1.5rem;
+            color: #888;
+            margin-bottom: 16px;
             line-height: 1.7;
+            font-size: 14px;
         }
+
+        .doc-description p { margin-bottom: 12px; }
+        .doc-description ul { margin-left: 20px; margin-bottom: 12px; }
+        .doc-description li { margin-bottom: 6px; }
+        .doc-description strong { color: #a855f7; }
 
         .doc-code {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 1rem;
-            margin-top: 1rem;
+            background: #050505;
+            border: 1px solid #111;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
             overflow-x: auto;
+            position: relative;
         }
 
-        pre {
-            margin: 0;
+        .doc-code::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #a855f7, #ec4899, transparent);
         }
+
+        pre { margin: 0; }
 
         code {
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
         .tag {
             display: inline-block;
-            background: #000000;
-            color: #fff;
-            padding: 0.3rem 0.7rem;
-            border: #9b58ff solid 2px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, rgba(168,85,247,0.15) 0%, rgba(236,72,153,0.1) 100%);
+            color: #a855f7;
+            padding: 4px 12px;
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
         }
 
-        .empty-state {
+        /* STATES */
+        .empty-state, .loading-state, .error-state {
             text-align: center;
-            padding: 4rem 2rem;
-            color: #8b949e;
+            padding: 60px 24px;
+            color: #555;
         }
 
-        .empty-state-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+        .loading-spinner {
+            border: 3px solid #111;
+            border-top: 3px solid #a855f7;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
         }
 
-        /* JSON Editor Modal */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .empty-state-icon, .error-state .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .error-state { color: #f87171; }
+
+        /* JSON EDITOR */
         .json-editor-btn {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #0d0d0d 100%, #ffffff 0%);
-            border: none;
-            border-radius: 23px;
-            color: white;
-            font-size: 1.5rem;
+            bottom: 24px;
+            right: 24px;
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #0f0f0f 0%, #080808 100%);
+            border: 1px solid #222;
+            border-radius: 14px;
+            color: #888;
+            font-size: 18px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(152, 88, 255, 0.4);
-            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
             z-index: 999;
         }
 
         .json-editor-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(185, 88, 255, 0.6);
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            border-color: #333;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(168,85,247,0.15);
         }
 
         .json-editor-modal {
@@ -327,9 +437,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0,0,0,0.9);
             z-index: 9999;
-            padding: 2rem;
+            padding: 24px;
         }
 
         .json-editor-modal.active {
@@ -339,78 +449,83 @@
         }
 
         .json-editor-container {
-            background: #000000;
-            border: 1px solid #30363d;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+            border: 1px solid #1a1a1a;
+            border-radius: 16px;
             width: 100%;
-            max-width: 1000px;
+            max-width: 800px;
             max-height: 90vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
         }
 
         .json-editor-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #30363d;
+            padding: 20px 24px;
+            border-bottom: 1px solid #111;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: linear-gradient(180deg, #080808 0%, #050505 100%);
         }
 
         .json-editor-header h2 {
-            color: #a058ff;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
             margin: 0;
         }
 
         .json-editor-close {
             background: none;
             border: none;
-            color: #000000;
-            font-size: 1.5rem;
+            color: #555;
+            font-size: 20px;
             cursor: pointer;
-            padding: 0.5rem;
-            transition: color 0.2s;
+            padding: 4px;
+            transition: all 0.2s ease;
         }
 
-        .json-editor-close:hover {
-            color: #f85149;
-        }
+        .json-editor-close:hover { color: #f87171; }
 
         .json-editor-body {
-            padding: 1.5rem;
+            padding: 24px;
             overflow-y: auto;
             flex: 1;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            color: #c9d1d9;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            color: #888;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 0.7rem;
-            background: #000000;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            color: #c9d1d9;
+            padding: 12px 14px;
+            background: #050505;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            color: #fff;
             font-family: inherit;
-            font-size: 0.95rem;
+            font-size: 13px;
+            transition: all 0.2s ease;
         }
 
         .form-group textarea {
-            min-height: 150px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            min-height: 120px;
+            font-family: 'JetBrains Mono', monospace;
             resize: vertical;
         }
 
@@ -418,186 +533,159 @@
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #a958ff;
-            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+            border-color: #333;
+            box-shadow: 0 0 0 3px rgba(168,85,247,0.1);
         }
 
         .form-group small {
             display: block;
-            margin-top: 0.3rem;
-            color: #8b949e;
-            font-size: 0.85rem;
+            margin-top: 6px;
+            color: #444;
+            font-size: 11px;
         }
 
         .tags-input-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
         .tag-item {
-            background: #6d1feb;
-            color: white;
-            padding: 0.3rem 0.7rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 6px;
         }
 
         .tag-remove {
             background: none;
             border: none;
-            color: white;
+            color: #fff;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 14px;
             padding: 0;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
         }
 
+        .tag-remove:hover { opacity: 1; }
+
         .json-editor-footer {
-            padding: 1.5rem;
-            border-top: 1px solid #30363d;
+            padding: 16px 24px;
+            border-top: 1px solid #111;
             display: flex;
-            gap: 1rem;
+            gap: 12px;
             justify-content: flex-end;
         }
 
         .btn {
-            padding: 0.7rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.95rem;
+            padding: 11px 20px;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary {
-            background: #5e2386;
-            color: white;
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+            border-color: #a855f7;
+            color: #fff;
         }
 
         .btn-primary:hover {
-            background: #502ea0;
+            background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+            box-shadow: 0 4px 20px rgba(168,85,247,0.3);
         }
 
         .btn-secondary {
-            background: #30363d;
-            color: #c9d1d9;
+            background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+            color: #888;
         }
 
         .btn-secondary:hover {
-            background: #484f58;
+            background: linear-gradient(135deg, #141414 0%, #0a0a0a 100%);
+            color: #fff;
+            border-color: #2a2a2a;
         }
 
         .json-output {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 1rem;
-            margin-top: 1rem;
+            background: #050505;
+            border: 1px solid #111;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
             position: relative;
         }
 
         .json-output pre {
             margin: 0;
-            color: #c9d1d9;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.9rem;
+            color: #888;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
             overflow-x: auto;
         }
 
         .copy-json-btn {
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: #5b2386;
-            color: white;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+            color: #fff;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
+            font-size: 11px;
+            transition: all 0.2s ease;
         }
 
         .copy-json-btn:hover {
-            background: #632ea0;
+            background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
         }
 
-        .copy-json-btn.copied {
-            background: #8728c7;
-        }
+        .copy-json-btn.copied { background: #22c55e; }
 
-        .loading-state {
+        /* FOOTER */
+        .footer-credit {
             text-align: center;
-            padding: 4rem 2rem;
-            color: #8b949e;
+            padding: 16px;
+            color: #333;
+            font-size: 10px;
+            letter-spacing: 1px;
+            border-top: 1px solid #111;
         }
 
-        .loading-spinner {
-            border: 4px solid #30363d;
-            border-top: 4px solid #9031ea;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: #f85149;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0d1117;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #30363d;
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #484f58;
-        }
-
-        @media (max-width: 768px) {
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
             .sidebar {
                 position: fixed;
-                left: -280px;
-                transition: left 0.3s;
+                left: -260px;
+                top: 60px;
+                height: calc(100vh - 60px);
                 z-index: 999;
+                transition: left 0.3s ease;
             }
 
-            .sidebar.mobile-open {
-                left: 0;
-            }
+            .sidebar.mobile-open { left: 0; }
 
-            .content {
-                padding: 1.5rem;
-            }
+            .content { padding: 20px 16px; }
+
+            .header-content { padding: 0 8px; }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content">
-            <a href="#" class="logo">🔥・<em>Dev</em>Docs</a>
+            <a href="#" class="logo">DevDocs</a>
             <div class="search-container">
                 <input type="text" class="search-box" id="searchBox" placeholder="Dokümantasyonlarda ara...">
                 <div class="search-results" id="searchResults"></div>
@@ -611,38 +699,29 @@
                 <div class="sidebar-title">PLATFORMLAR</div>
                 <div id="platformsList"></div>
             </div>
-
             <div class="sidebar-section" id="docsNavSection">
                 <div class="sidebar-title">DOCS</div>
                 <div id="docsNavList"></div>
             </div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-title">© 2026 BY ROWRAİN</div>
-            </div>
+            <div class="footer-credit">2026 ROWRAIN</div>
         </aside>
-
 
         <main class="content" id="content">
             <div class="loading-state">
                 <div class="loading-spinner"></div>
-                <h2>Yükleniyor...</h2>
+                <h2 style="color:#fff;font-size:14px;margin-bottom:8px;">Yükleniyor</h2>
                 <p>Dokümantasyon verisi yükleniyor</p>
             </div>
         </main>
     </div>
 
-    <!-- JSON Editor Button -->
-    <button class="json-editor-btn" id="jsonEditorBtn" title="Yeni Doküman Ekle">
-        ⚙
-    </button>
+    <button class="json-editor-btn" id="jsonEditorBtn" title="Yeni Doküman Ekle">+</button>
 
-    <!-- JSON Editor Modal -->
     <div class="json-editor-modal" id="jsonEditorModal">
         <div class="json-editor-container">
             <div class="json-editor-header">
-                <h2>💥 Yeni Doküman Ekle</h2>
-                <button class="json-editor-close" id="closeEditorBtn">×</button>
+                <h2>YENİ DOKÜMAN EKLE</h2>
+                <button class="json-editor-close" id="closeEditorBtn">&times;</button>
             </div>
             <div class="json-editor-body">
                 <form id="docForm">
@@ -652,59 +731,45 @@
                             <option value="">Platform Seçin</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Alt Kategori</label>
                         <select id="subcategorySelect" required>
                             <option value="">Alt Kategori Seçin</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Doküman ID</label>
                         <input type="text" id="docId" placeholder="ornek-dokuman" required>
                         <small>Benzersiz bir ID (küçük harf, tire ile)</small>
                     </div>
-
                     <div class="form-group">
                         <label>Başlık</label>
                         <input type="text" id="docTitle" placeholder="Örnek Doküman - Açıklama" required>
                     </div>
-
                     <div class="form-group">
-                        <label>Etiketler (Tags)</label>
+                        <label>Etiketler</label>
                         <div class="tags-input-container" id="tagsContainer"></div>
                         <input type="text" id="tagInput" placeholder="Etiket yazıp Enter'a basın">
-                        <small>Her etiketten sonra Enter'a basın</small>
                     </div>
-
                     <div class="form-group">
                         <label>Labellar</label>
                         <div class="tags-input-container" id="labelsContainer"></div>
                         <input type="text" id="labelInput" placeholder="Label yazıp Enter'a basın">
-                        <small>Doküman üstünde görünecek etiketler</small>
                     </div>
-
                     <div class="form-group">
-                        <label>Açıklama (HTML destekler)</label>
-                        <textarea id="docDescription" placeholder="<p>Açıklama buraya...</p>" required></textarea>
-                        <small>HTML etiketleri kullanabilirsiniz: &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt; vb.</small>
+                        <label>Açıklama (HTML)</label>
+                        <textarea id="docDescription" placeholder="<p>Açıklama...</p>" required></textarea>
                     </div>
-
                     <div class="form-group">
                         <label>Kod (Opsiyonel)</label>
-                        <textarea id="docCode" placeholder="public class Example {&#10;    // Kod buraya...&#10;}"></textarea>
-                        <small>Java kodu buraya (boş bırakılabilir)</small>
+                        <textarea id="docCode" placeholder="// Kod buraya..."></textarea>
                     </div>
                 </form>
-
-                <div id="jsonOutputContainer" style="display: none;">
-                    <h3 style="color: #58a6ff; margin-bottom: 1rem;">✅ JSON Kodu Hazır!</h3>
-                    <p style="color: #8b949e; margin-bottom: 1rem;">
-                        Aşağıdaki JSON kodunu kopyalayın ve <code style="background: #0d1117; padding: 0.2rem 0.5rem; border-radius: 3px;">docs.json</code> dosyasındaki ilgili platforma ekleyin.
-                    </p>
+                <div id="jsonOutputContainer" style="display:none;">
+                    <h3 style="color:#a855f7;font-size:13px;margin-bottom:12px;">JSON Kodu Hazır</h3>
+                    <p style="color:#555;font-size:12px;margin-bottom:12px;">Aşağıdaki JSON kodunu docs.json dosyasına ekleyin.</p>
                     <div class="json-output">
-                        <button class="copy-json-btn" id="copyJsonBtn">📋 Kopyala</button>
+                        <button class="copy-json-btn" id="copyJsonBtn">Kopyala</button>
                         <pre id="jsonOutput"></pre>
                     </div>
                 </div>
@@ -716,6 +781,8 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
     <script>
         let docsData = {};
         let currentPlatform = null;
@@ -725,24 +792,33 @@
         let labels = [];
         let docsNavListenerAttached = false;
 
-        // JSON dosyasını yükle
+        // Cache DOM elements
+        const DOM = {
+            platformsList: null,
+            docsNavList: null,
+            content: null,
+            searchBox: null,
+            searchResults: null,
+            init() {
+                this.platformsList = document.getElementById('platformsList');
+                this.docsNavList = document.getElementById('docsNavList');
+                this.content = document.getElementById('content');
+                this.searchBox = document.getElementById('searchBox');
+                this.searchResults = document.getElementById('searchResults');
+            }
+        };
+
         async function loadDocsData() {
             try {
                 const response = await fetch('docs.json?v=' + Date.now());
-                
-                if (!response.ok) {
-                    throw new Error('JSON dosyası yüklenemedi');
-                }
-                
+                if (!response.ok) throw new Error('JSON dosyası yüklenemedi');
                 docsData = await response.json();
                 
                 const firstPlatform = Object.keys(docsData)[0];
                 if (firstPlatform) {
                     currentPlatform = firstPlatform;
                     const firstSubcat = Object.keys(docsData[firstPlatform].subcategories)[0];
-                    if (firstSubcat) {
-                        currentSubcategory = firstSubcat;
-                    }
+                    if (firstSubcat) currentSubcategory = firstSubcat;
                 }
                 
                 renderPlatforms();
@@ -751,489 +827,356 @@
                 } else {
                     showEmptyState('Dokümantasyon');
                 }
-                
             } catch (error) {
-                console.error('JSON yükleme hatası:', error);
                 showErrorState(error.message);
             }
         }
 
-        // Platform listesini oluştur
         function renderPlatforms() {
-            const platformsList = document.getElementById('platformsList');
-            platformsList.innerHTML = '';
-
+            let html = '';
             Object.keys(docsData).forEach(platformKey => {
                 const platform = docsData[platformKey];
+                const isActive = platformKey === currentPlatform ? 'active' : '';
+                html += `<div class="category-item ${isActive}" data-platform="${platformKey}">
+                    <span>${platform.icon} ${platform.name}</span>
+                </div>`;
                 
-                const platformDiv = document.createElement('div');
-                platformDiv.className = `category-item ${platformKey === currentPlatform ? 'active' : ''}`;
-                platformDiv.innerHTML = `<span>${platform.icon} ${platform.name}</span>`;
-                platformDiv.addEventListener('click', () => {
-                    currentPlatform = platformKey;
-                    const firstSubcat = Object.keys(platform.subcategories)[0];
-                    if (firstSubcat) {
-                        currentSubcategory = firstSubcat;
-                        loadContent(platformKey, firstSubcat);
-                    } else {
-                        showEmptyState(platform.name);
-                    }
-                    renderPlatforms();
-                });
-                platformsList.appendChild(platformDiv);
-
                 Object.keys(platform.subcategories).forEach(subcatKey => {
                     const subcat = platform.subcategories[subcatKey];
-                    const subcatDiv = document.createElement('div');
-                    subcatDiv.className = `subcategory-item ${platformKey === currentPlatform && subcatKey === currentSubcategory ? 'active' : ''}`;
-                    subcatDiv.textContent = `${subcat.icon} ${subcat.name}`;
-                    subcatDiv.addEventListener('click', () => {
-                        currentPlatform = platformKey;
-                        currentSubcategory = subcatKey;
-                        loadContent(platformKey, subcatKey);
-                        renderPlatforms();
-                    });
-                    platformsList.appendChild(subcatDiv);
+                    const subActive = platformKey === currentPlatform && subcatKey === currentSubcategory ? 'active' : '';
+                    html += `<div class="subcategory-item ${subActive}" data-platform="${platformKey}" data-subcat="${subcatKey}">
+                        ${subcat.icon} ${subcat.name}
+                    </div>`;
                 });
             });
+            DOM.platformsList.innerHTML = html;
         }
 
-        // İçerik yükle
+        // Event delegation for platforms
+        document.addEventListener('DOMContentLoaded', () => {
+            DOM.init();
+            loadDocsData();
+
+            DOM.platformsList.addEventListener('click', (e) => {
+                const category = e.target.closest('.category-item');
+                const subcategory = e.target.closest('.subcategory-item');
+                
+                if (subcategory) {
+                    currentPlatform = subcategory.dataset.platform;
+                    currentSubcategory = subcategory.dataset.subcat;
+                    loadContent(currentPlatform, currentSubcategory);
+                    renderPlatforms();
+                } else if (category) {
+                    currentPlatform = category.dataset.platform;
+                    const firstSubcat = Object.keys(docsData[currentPlatform].subcategories)[0];
+                    if (firstSubcat) {
+                        currentSubcategory = firstSubcat;
+                        loadContent(currentPlatform, firstSubcat);
+                    }
+                    renderPlatforms();
+                }
+            });
+
+            // Search
+            let searchTimeout;
+            DOM.searchBox.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = e.target.value.trim().toLowerCase();
+                    if (query.length < 2) {
+                        DOM.searchResults.classList.remove('active');
+                        return;
+                    }
+                    performSearch(query);
+                }, 150);
+            });
+
+            DOM.searchResults.addEventListener('click', (e) => {
+                const item = e.target.closest('.search-result-item[data-doc-id]');
+                if (item) {
+                    const { platform, subcat, docId } = item.dataset;
+                    if (platform !== currentPlatform || subcat !== currentSubcategory) {
+                        currentPlatform = platform;
+                        currentSubcategory = subcat;
+                        loadContent(platform, subcat);
+                        renderPlatforms();
+                    }
+                    setTimeout(() => scrollToDoc(docId), 100);
+                    DOM.searchResults.classList.remove('active');
+                    DOM.searchBox.value = '';
+                }
+            });
+
+            // Docs nav delegation
+            DOM.docsNavList.addEventListener('click', (e) => {
+                const navItem = e.target.closest('.doc-nav-item');
+                if (navItem) scrollToDoc(navItem.dataset.doc);
+            });
+
+            // JSON Editor
+            document.getElementById('jsonEditorBtn').addEventListener('click', openEditor);
+            document.getElementById('closeEditorBtn').addEventListener('click', closeEditor);
+            document.getElementById('cancelBtn').addEventListener('click', closeEditor);
+            document.getElementById('generateJsonBtn').addEventListener('click', generateJson);
+            document.getElementById('platformSelect').addEventListener('change', updateSubcategories);
+            document.getElementById('tagInput').addEventListener('keypress', handleTagInput);
+            document.getElementById('labelInput').addEventListener('keypress', handleLabelInput);
+            document.getElementById('copyJsonBtn').addEventListener('click', copyJson);
+            document.getElementById('jsonEditorModal').addEventListener('click', (e) => {
+                if (e.target.id === 'jsonEditorModal') closeEditor();
+            });
+        });
+
+        function performSearch(query) {
+            const results = [];
+            const queryWords = query.split(/\s+/).filter(w => w.length > 0);
+            
+            Object.keys(docsData).forEach(platformKey => {
+                const platform = docsData[platformKey];
+                Object.keys(platform.subcategories).forEach(subcatKey => {
+                    const subcat = platform.subcategories[subcatKey];
+                    if (subcat.docs) {
+                        subcat.docs.forEach((doc, index) => {
+                            // Tüm alanları birleştir: title, tags, labels, description
+                            const searchText = [
+                                doc.title,
+                                doc.tags.join(' '),
+                                doc.labels.join(' '),
+                                doc.description.replace(/<[^>]*>/g, '') // HTML taglarını kaldır
+                            ].join(' ').toLowerCase();
+                            
+                            // Tüm query kelimeleri eşleşmeli
+                            const matches = queryWords.every(word => searchText.includes(word));
+                            if (matches) {
+                                // Skor hesapla - title eşleşmesi daha yüksek puan
+                                let score = 0;
+                                if (doc.title.toLowerCase().includes(query)) score += 100;
+                                queryWords.forEach(word => {
+                                    if (doc.title.toLowerCase().includes(word)) score += 50;
+                                    if (doc.tags.some(t => t.toLowerCase().includes(word))) score += 30;
+                                    if (doc.labels.some(l => l.toLowerCase().includes(word))) score += 20;
+                                });
+                                results.push({ doc, index, platformKey, subcatKey, platform, subcat, score });
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Skora göre sırala
+            results.sort((a, b) => b.score - a.score);
+
+            if (results.length === 0) {
+                DOM.searchResults.innerHTML = '<div class="search-result-item" style="color:#555">Sonuç bulunamadı</div>';
+            } else {
+                DOM.searchResults.innerHTML = results.slice(0, 8).map(r => `
+                    <div class="search-result-item" data-platform="${r.platformKey}" data-subcat="${r.subcatKey}" data-doc-id="${r.index}">
+                        <div class="result-title">${escapeHtml(r.doc.title)}</div>
+                        <div class="result-breadcrumb">${r.platform.icon} ${escapeHtml(r.platform.name)} / ${r.subcat.icon} ${escapeHtml(r.subcat.name)}</div>
+                    </div>
+                `).join('');
+            }
+            DOM.searchResults.classList.add('active');
+        }
+
         function loadContent(platform, subcategory) {
             const data = docsData[platform]?.subcategories?.[subcategory];
-            if (!data || !data.docs || data.docs.length === 0) {
+            if (!data?.docs?.length) {
                 showEmptyState(docsData[platform].name);
                 return;
             }
-
             currentDocs = data.docs;
 
-            const content = document.getElementById('content');
-            
-            content.innerHTML = `
-                <div class="breadcrumb" id="breadcrumb">
-                    <div class="breadcrumb-item">
-                        <span>${docsData[platform].icon} ${docsData[platform].name}</span>
-                    </div>
+            DOM.content.innerHTML = `
+                <div class="breadcrumb">
+                    <div class="breadcrumb-item">${docsData[platform].icon} ${docsData[platform].name}</div>
                     <span class="breadcrumb-separator">/</span>
-                    <div class="breadcrumb-item">
-                        <span>${data.icon} ${data.name}</span>
-                    </div>
+                    <div class="breadcrumb-item">${data.icon} ${data.name}</div>
                 </div>
-                <div id="docsList"></div>
+                <div id="docsList">${renderDocsList(currentDocs)}</div>
             `;
-
-            renderDocs(currentDocs);
             renderDocsNav(currentDocs);
+            requestAnimationFrame(() => Prism.highlightAll());
         }
 
-        // Dokümanları render et
-        function renderDocs(docs) {
-            const docsList = document.getElementById('docsList');
-            docsList.innerHTML = docs.map((doc, index) => {
-                const escapedCode = doc.code ? escapeHtml(doc.code) : '';
-                return `
-                    <div class="doc-item" data-doc-id="${index}" data-tags="${escapeHtml(doc.tags.join(' '))}">
-                        <h2 class="doc-title">${escapeHtml(doc.title)}</h2>
-                        <div>
-                            ${doc.labels.map(label => `<span class="tag">${escapeHtml(label)}</span>`).join('')}
-                        </div>
-                        <div class="doc-description">
-                            ${doc.description}
-                        </div>
-                        ${doc.code ? `
-                        <div class="doc-code">
-                            <pre><code class="language-java">${escapedCode}</code></pre>
-                        </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('');
-
-            setTimeout(() => Prism.highlightAll(), 100);
+        function renderDocsList(docs) {
+            return docs.map((doc, index) => `
+                <div class="doc-item" data-doc-id="${index}">
+                    <h2 class="doc-title">${escapeHtml(doc.title)}</h2>
+                    <div>${doc.labels.map(l => `<span class="tag">${escapeHtml(l)}</span>`).join('')}</div>
+                    <div class="doc-description">${doc.description}</div>
+                    ${doc.code ? `<div class="doc-code"><pre><code class="language-java">${escapeHtml(doc.code)}</code></pre></div>` : ''}
+                </div>
+            `).join('');
         }
 
-        // Docs navigasyonu
         function renderDocsNav(docs) {
-            const docsNavList = document.getElementById('docsNavList');
-            docsNavList.innerHTML = docs.map((doc, index) => {
-                const shortTitle = escapeHtml(doc.title.split(' - ')[0]);
-                return `
-                    <div class="doc-nav-item ${index === 0 ? 'active' : ''}" data-doc="${index}">
-                        📄 ${shortTitle}
-                    </div>
-                `;
-            }).join('');
-
-            // Event listener sadece bir kez ekleniyor
-            if (!docsNavListenerAttached) {
-                docsNavList.addEventListener('click', (e) => {
-                    const navItem = e.target.closest('.doc-nav-item');
-                    if (navItem && navItem.dataset.doc !== undefined) {
-                        scrollToDoc(navItem.dataset.doc);
-                    }
-                });
-                docsNavListenerAttached = true;
-            }
+            DOM.docsNavList.innerHTML = docs.map((doc, i) => `
+                <div class="doc-nav-item ${i === 0 ? 'active' : ''}" data-doc="${i}">
+                    ${escapeHtml(doc.title.split(' - ')[0])}
+                </div>
+            `).join('');
         }
 
-        // Dokümana kaydır
+        // Cache header height
+        let cachedHeaderHeight = null;
+        function getHeaderHeight() {
+            if (cachedHeaderHeight === null) {
+                cachedHeaderHeight = document.querySelector('.header')?.offsetHeight || 60;
+            }
+            return cachedHeaderHeight;
+        }
+
         function scrollToDoc(docId) {
-            // requestAnimationFrame ile DOM güncellemelerinin tamamlanmasını bekle
+            const targetDoc = document.querySelector(`[data-doc-id="${docId}"]`);
+            if (!targetDoc) return;
+            
+            // Batch DOM reads/writes
+            const navItems = DOM.docsNavList.querySelectorAll('.doc-nav-item');
+            const activeNav = DOM.docsNavList.querySelector(`[data-doc="${docId}"]`);
+            
             requestAnimationFrame(() => {
-                const targetDoc = document.querySelector(`[data-doc-id="${docId}"]`);
-                if (!targetDoc) {
-                    console.log('[v0] Target doc not found:', docId);
-                    return;
-                }
-                
-                // Nav item'ları güncelle
-                document.querySelectorAll('.doc-nav-item').forEach(el => el.classList.remove('active'));
-                const activeNav = document.querySelector(`[data-doc="${docId}"]`);
+                navItems.forEach(el => el.classList.remove('active'));
                 if (activeNav) activeNav.classList.add('active');
                 
-                // Header yüksekliğini al
-                const header = document.querySelector('.header');
-                const headerHeight = header ? header.getBoundingClientRect().height : 70;
-                
-                // Element pozisyonunu hesapla
-                const rect = targetDoc.getBoundingClientRect();
-                const absoluteTop = rect.top + window.scrollY;
-                const targetPosition = absoluteTop - headerHeight - 20;
-                
-                // Scroll yap
-                window.scrollTo({
-                    top: Math.max(0, targetPosition),
-                    behavior: 'smooth'
-                });
+                const targetPosition = targetDoc.getBoundingClientRect().top + window.scrollY - getHeaderHeight() - 20;
+                window.scrollTo({ top: Math.max(0, targetPosition), behavior: 'smooth' });
             });
         }
 
-        // Boş durum
-        function showEmptyState(platformName) {
-            const content = document.getElementById('content');
-            content.innerHTML = `
+        function showEmptyState(name) {
+            DOM.content.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-icon">📝</div>
-                    <h2>${platformName} Dokümantasyonu</h2>
+                    <h2 style="color:#fff;font-size:16px;margin-bottom:8px;">${name} Dokümantasyonu</h2>
                     <p>Bu bölümde henüz doküman bulunmuyor.</p>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">docs.json dosyasını düzenleyerek içerik ekleyebilirsiniz.</p>
                 </div>
             `;
-            document.getElementById('docsNavList').innerHTML = '';
+            DOM.docsNavList.innerHTML = '';
         }
 
-        // Hata durumu
         function showErrorState(message) {
-            const content = document.getElementById('content');
-            content.innerHTML = `
+            DOM.content.innerHTML = `
                 <div class="error-state">
                     <div class="empty-state-icon">⚠️</div>
-                    <h2>Hata Oluştu</h2>
+                    <h2 style="font-size:16px;margin-bottom:8px;">Hata Oluştu</h2>
                     <p>${message}</p>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">docs.json dosyasının aynı klasörde olduğundan emin olun.</p>
                 </div>
             `;
         }
 
-        // Fuzzy search
-        function fuzzySearch(query, text) {
-            if (text.includes(query)) return 100;
-            let score = 0;
-            let queryIndex = 0;
-            for (let i = 0; i < text.length && queryIndex < query.length; i++) {
-                if (text[i] === query[queryIndex]) {
-                    score += 10;
-                    queryIndex++;
-                }
-            }
-            return queryIndex === query.length ? score : 0;
-        }
-
-        // HTML escape
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        function populatePlatformSelect() {
-            const platformSelect = document.getElementById('platformSelect');
-            if (platformSelect) {
-                platformSelect.innerHTML = '<option value="">Platform Seçin</option>';
-                
-                Object.keys(docsData).forEach(key => {
-                    const platform = docsData[key];
-                    const option = document.createElement('option');
-                    option.value = key;
-                    option.textContent = `${platform.icon} ${platform.name}`;
-                    platformSelect.appendChild(option);
-                });
-            }
+        // JSON Editor functions
+        function openEditor() {
+            document.getElementById('jsonEditorModal').classList.add('active');
+            populatePlatformSelect();
+            document.getElementById('jsonOutputContainer').style.display = 'none';
+            document.getElementById('docForm').style.display = 'block';
+            document.getElementById('generateJsonBtn').style.display = 'inline-block';
         }
 
-        // Tags render
-        function renderTags() {
-            const container = document.getElementById('tagsContainer');
-            if (container) {
-                container.innerHTML = tags.map((tag, i) => `
-                    <div class="tag-item" data-value="${tag}">
-                        ${tag}
-                        <button type="button" class="tag-remove" onclick="removeTag(${i})">×</button>
-                    </div>
-                `).join('');
-            }
-        }
-
-        // Labels render
-        function renderLabels() {
-            const container = document.getElementById('labelsContainer');
-            if (container) {
-                container.innerHTML = labels.map((label, i) => `
-                    <div class="tag-item" data-value="${label}">
-                        ${label}
-                        <button type="button" class="tag-remove" onclick="removeLabel(${i})">×</button>
-                    </div>
-                `).join('');
-            }
-        }
-
-        // Global fonksiyonlar
-        window.removeTag = function(index) {
-            tags.splice(index, 1);
-            renderTags();
-        }
-
-        window.removeLabel = function(index) {
-            labels.splice(index, 1);
-            renderLabels();
-        }
-
-        // Modal kapat fonksiyonu
         function closeEditor() {
             document.getElementById('jsonEditorModal').classList.remove('active');
             document.getElementById('docForm').reset();
             document.getElementById('jsonOutputContainer').style.display = 'none';
-            document.getElementById('docForm').style.display = 'block';
-            document.getElementById('generateJsonBtn').style.display = 'inline-block';
             document.getElementById('tagsContainer').innerHTML = '';
             document.getElementById('labelsContainer').innerHTML = '';
             tags = [];
             labels = [];
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Veriyi yükle
-            loadDocsData();
+        function populatePlatformSelect() {
+            const select = document.getElementById('platformSelect');
+            select.innerHTML = '<option value="">Platform Seçin</option>';
+            Object.keys(docsData).forEach(key => {
+                const platform = docsData[key];
+                select.innerHTML += `<option value="${key}">${platform.icon} ${platform.name}</option>`;
+            });
+        }
 
-            // Arama işlevselliği
-            const searchBox = document.getElementById('searchBox');
-            const searchResults = document.getElementById('searchResults');
-            
-            searchBox.addEventListener('input', (e) => {
-                const query = e.target.value.trim().toLowerCase();
-                
-                if (query.length < 2) {
-                    searchResults.classList.remove('active');
-                    return;
-                }
-
-                const results = [];
-                Object.keys(docsData).forEach(platformKey => {
-                    const platform = docsData[platformKey];
-                    Object.keys(platform.subcategories).forEach(subcatKey => {
-                        const subcat = platform.subcategories[subcatKey];
-                        if (subcat.docs) {
-                            subcat.docs.forEach((doc, index) => {
-                                const searchText = (doc.title + ' ' + doc.tags.join(' ')).toLowerCase();
-                                const score = fuzzySearch(query, searchText);
-                                if (score > 0) {
-                                    results.push({ 
-                                        doc, 
-                                        index, 
-                                        score, 
-                                        platformKey, 
-                                        subcatKey,
-                                        platformName: platform.name,
-                                        platformIcon: platform.icon,
-                                        subcatName: subcat.name,
-                                        subcatIcon: subcat.icon
-                                    });
-                                }
-                            });
-                        }
-                    });
+        function updateSubcategories(e) {
+            const platform = e.target.value;
+            const select = document.getElementById('subcategorySelect');
+            select.innerHTML = '<option value="">Alt Kategori Seçin</option>';
+            if (platform && docsData[platform]) {
+                Object.keys(docsData[platform].subcategories).forEach(key => {
+                    const subcat = docsData[platform].subcategories[key];
+                    select.innerHTML += `<option value="${key}">${subcat.icon} ${subcat.name}</option>`;
                 });
+            }
+        }
 
-                results.sort((a, b) => b.score - a.score);
-
-                if (results.length === 0) {
-                    searchResults.innerHTML = '<div class="search-result-item" style="color: #8b949e;">Sonuç bulunamadı</div>';
-                } else {
-                    searchResults.innerHTML = results.slice(0, 5).map(r => {
-                        const escapedTitle = escapeHtml(r.doc.title);
-                        return `
-                            <div class="search-result-item" data-platform="${r.platformKey}" data-subcat="${r.subcatKey}" data-doc-id="${r.index}">
-                                <div class="result-title">${escapedTitle}</div>
-                                <div class="result-breadcrumb">${r.platformIcon} ${escapeHtml(r.platformName)} / ${r.subcatIcon} ${escapeHtml(r.subcatName)}</div>
-                            </div>
-                        `;
-                    }).join('');
+        function handleTagInput(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const tag = e.target.value.trim();
+                if (tag && !tags.includes(tag)) {
+                    tags.push(tag);
+                    renderTagsUI();
                 }
+                e.target.value = '';
+            }
+        }
 
-                searchResults.classList.add('active');
-            });
-
-            searchResults.addEventListener('click', (e) => {
-                const item = e.target.closest('.search-result-item[data-doc-id]');
-                if (item) {
-                    const platformKey = item.dataset.platform;
-                    const subcatKey = item.dataset.subcat;
-                    const docId = item.dataset.docId;
-                    
-                    // Önce doğru platforma ve kategoriye git
-                    if (platformKey !== currentPlatform || subcatKey !== currentSubcategory) {
-                        currentPlatform = platformKey;
-                        currentSubcategory = subcatKey;
-                        loadContent(platformKey, subcatKey);
-                        renderPlatforms();
-                    }
-                    
-                    // Sonra dokümana scroll yap - DOM'un tamamen yüklenmesini bekle
-                    setTimeout(() => {
-                        requestAnimationFrame(() => {
-                            scrollToDoc(docId);
-                        });
-                    }, 150);
-                    
-                    searchResults.classList.remove('active');
-                    searchBox.value = '';
+        function handleLabelInput(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const label = e.target.value.trim();
+                if (label && !labels.includes(label)) {
+                    labels.push(label);
+                    renderLabelsUI();
                 }
-            });
+                e.target.value = '';
+            }
+        }
 
-            // JSON Editor - Modal açma
-            document.getElementById('jsonEditorBtn').addEventListener('click', () => {
-                document.getElementById('jsonEditorModal').classList.add('active');
-                populatePlatformSelect();
-                document.getElementById('jsonOutputContainer').style.display = 'none';
-                document.getElementById('docForm').style.display = 'block';
-                document.getElementById('generateJsonBtn').style.display = 'inline-block';
-            });
+        function renderTagsUI() {
+            document.getElementById('tagsContainer').innerHTML = tags.map((tag, i) => `
+                <div class="tag-item">${tag}<button type="button" class="tag-remove" onclick="removeTag(${i})">&times;</button></div>
+            `).join('');
+        }
 
-            // Platform değişince alt kategoriyi doldur
-            document.getElementById('platformSelect').addEventListener('change', (e) => {
-                const platform = e.target.value;
-                const subcategorySelect = document.getElementById('subcategorySelect');
-                subcategorySelect.innerHTML = '<option value="">Alt Kategori Seçin</option>';
+        function renderLabelsUI() {
+            document.getElementById('labelsContainer').innerHTML = labels.map((label, i) => `
+                <div class="tag-item">${label}<button type="button" class="tag-remove" onclick="removeLabel(${i})">&times;</button></div>
+            `).join('');
+        }
 
-                if (platform && docsData[platform]) {
-                    Object.keys(docsData[platform].subcategories).forEach(key => {
-                        const subcat = docsData[platform].subcategories[key];
-                        const option = document.createElement('option');
-                        option.value = key;
-                        option.textContent = `${subcat.icon} ${subcat.name}`;
-                        subcategorySelect.appendChild(option);
-                    });
-                }
-            });
+        window.removeTag = (i) => { tags.splice(i, 1); renderTagsUI(); };
+        window.removeLabel = (i) => { labels.splice(i, 1); renderLabelsUI(); };
 
-            // Modal dışına tıklayınca kapat
-            document.getElementById('jsonEditorModal').addEventListener('click', (e) => {
-                if (e.target.id === 'jsonEditorModal') {
-                    closeEditor();
-                }
-            });
+        function generateJson() {
+            const docData = {
+                id: document.getElementById('docId').value.trim(),
+                title: document.getElementById('docTitle').value.trim(),
+                tags: tags,
+                labels: labels,
+                description: document.getElementById('docDescription').value.trim(),
+                code: document.getElementById('docCode').value.trim()
+            };
+            document.getElementById('jsonOutput').textContent = JSON.stringify(docData, null, 2);
+            document.getElementById('jsonOutputContainer').style.display = 'block';
+            document.getElementById('docForm').style.display = 'none';
+            document.getElementById('generateJsonBtn').style.display = 'none';
+        }
 
-            // Tags input
-            document.getElementById('tagInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    const tag = e.target.value.trim();
-                    if (tag && !tags.includes(tag)) {
-                        tags.push(tag);
-                        renderTags();
-                    }
-                    e.target.value = '';
-                }
-            });
-
-            // Labels input
-            document.getElementById('labelInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    const label = e.target.value.trim();
-                    if (label && !labels.includes(label)) {
-                        labels.push(label);
-                        renderLabels();
-                    }
-                    e.target.value = '';
-                }
-            });
-
-            // JSON oluştur butonu
-            document.getElementById('generateJsonBtn').addEventListener('click', () => {
-                const platform = document.getElementById('platformSelect').value;
-                const subcategory = document.getElementById('subcategorySelect').value;
-                const docId = document.getElementById('docId').value.trim();
-                const title = document.getElementById('docTitle').value.trim();
-                const description = document.getElementById('docDescription').value.trim();
-                const code = document.getElementById('docCode').value.trim();
-
-                if (!platform || !subcategory || !docId || !title || !description) {
-                    alert('⚠️ Lütfen tüm gerekli alanları doldurun!');
-                    return;
-                }
-
-                const docData = {
-                    id: docId,
-                    title: title,
-                    tags: tags,
-                    labels: labels,
-                    description: description
-                };
-
-                if (code) {
-                    docData.code = code;
-                }
-
-                const jsonStr = JSON.stringify(docData, null, 2);
-                document.getElementById('jsonOutput').textContent = jsonStr;
-                document.getElementById('jsonOutputContainer').style.display = 'block';
-                document.getElementById('docForm').style.display = 'none';
-                document.getElementById('generateJsonBtn').style.display = 'none';
-                
+        function copyJson() {
+            const text = document.getElementById('jsonOutput').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyJsonBtn');
+                btn.textContent = 'Kopyalandı!';
+                btn.classList.add('copied');
                 setTimeout(() => {
-                    document.getElementById('jsonOutputContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
+                    btn.textContent = 'Kopyala';
+                    btn.classList.remove('copied');
+                }, 2000);
             });
-
-            // JSON kopyala butonu
-            document.getElementById('copyJsonBtn').addEventListener('click', () => {
-                const jsonText = document.getElementById('jsonOutput').textContent;
-                navigator.clipboard.writeText(jsonText).then(() => {
-                    const btn = document.getElementById('copyJsonBtn');
-                    const originalText = btn.textContent;
-                    btn.textContent = '✅ Kopyalandı!';
-                    btn.classList.add('copied');
-                    setTimeout(() => {
-                        btn.textContent = originalText;
-                        btn.classList.remove('copied');
-                    }, 2000);
-                }).catch(err => {
-                    alert('Kopyalama başarısız! Manuel olarak seçip kopyalayın.');
-                });
-            });
-
-            // Modal kapat butonları
-            document.getElementById('closeEditorBtn').addEventListener('click', closeEditor);
-            document.getElementById('cancelBtn').addEventListener('click', closeEditor);
-        });
+        }
     </script>
-    <center>
-    <hr style="border-color:#0a0a0a;">
-    <br>
-    <footer><p style="font-size:15px;"><em>Bu proje RowRain Tarafından geliştirilmiştir.</em></p></footer>
-    <br>
-    </center>
 </body>
 </html>
