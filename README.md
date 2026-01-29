@@ -1,4 +1,4 @@
-# 🔥 DevDocs
+<img width="1920" height="930" alt="image" src="https://github.com/user-attachments/assets/d7824f1f-c387-49ae-a5b1-e08c301cebfb" /># 🔥 DevDocs
 
 **DevDocs**, geliştiriciler için hazırlanmış,  
 JSON tabanlı **özel bir dokümantasyon oluşturma ve görüntüleme sistemidir**.
@@ -24,8 +24,8 @@ bundan kullanmanız önerilir.
 ---
 
 ## 🎉 Görseller
-![DevDocs](https://cdn.discordapp.com/attachments/1212085829103648799/1460026784044290088/image.png?ex=69656b67&is=696419e7&hm=233418f79b560f2d2326a7d0c33ce1a3d34d06661a92e1cb2dc8f54e06ee5b0f&)
-![DevDocs](https://cdn.discordapp.com/attachments/1212085829103648799/1460027032460071104/image.png?ex=69656ba2&is=69641a22&hm=aa3c08102d2f361f39916e41c3521a6608400df627d4ae6e0695f28f6f13ed68&)
+![DevDocs](http://web.raincloud.com.tr:40006/download.php?id=17697251327039&file=Capture_1769725132_52d01c2d.png&access=1)
+![DevDocs](http://web.raincloud.com.tr:40006/download.php?id=17697252025194&file=Capture_1769725202_51e0d360.png&access=0)
 
 ---
 
