@@ -1,0 +1,180 @@
+{
+    "minecraft": {
+      "name": "Minecraft",
+      "icon": "🎮",
+      "subcategories": {
+        "java": {
+          "name": "Java Edition",
+          "icon": "☕",
+          "docs": [
+            {
+              "id": "mini-font-generator",
+              "title": "Mini Font Text Generator",
+              "tags": ["font", "text", "generator", "small caps", "unicode", "kucuk", "buyuk"],
+              "labels": ["Generator", "Text"],
+              "description": "<p><strong>Mini Font Generator</strong> ile normal metinlerinizi küçük büyük harfli (ᴋᴜᴄᴜᴋ ʙᴜʏᴜᴋ) unicode karakterlere dönüştürebilirsiniz.</p><ul><li>Metin kutusuna yazın</li><li>Otomatik olarak dönüştürülür</li><li>Kopyala butonuyla kopyalayın</li></ul>",
+              "code": "",
+              "type": "tool",
+              "toolId": "mini-font-generator"
+            },
+            {
+              "id": "1",
+              "title": "Join Eventi",
+              "tags": [
+                "join",
+                "event",
+                "listener"
+              ],
+              "labels": [
+                "event",
+                "join",
+                "listener"
+              ],
+              "description": "<p>İlk öncelikle bu eventin tipi</p>\n<h1>public class Welcome implements Listener<h1>\n<p>\"Listener\" Eki eklenmek zorunda çalışması için aşağıda örnek kodlar;</p>",
+              "code": "public class Welcome implements Listener {\n    @EventHandler\n    public void playerJoin(PlayerJoinEvent event) {\n        Player player = event.getPlayer();\n        player.sendMessage(\"Hoşgeldin dostum.\" + player.getName());\n        player.sendTitle(\"Sunucuya Hoşgeldin\", \"Kafana bak\",10,70,20);\n    }\n    @EventHandler\n    public void elmastik(PlayerInteractEvent event) {\n        Player player = event.getPlayer();\n        ItemStack item = event.getItem();\n        Location oyunculokisyon = player.getLocation();\n\n        if (item != null && item.getType() == Material.DIAMOND) {\n            player.getWorld().spawnParticle(Particle.ANGRY_VILLAGER,oyunculokisyon,20);\n        }\n    }"
+            },
+
+            {
+              "id": "komut",
+              "title": "Komutlar",
+              "tags": [
+                "komutlar",
+                "sender",
+                "CommandExecutor"
+              ],
+              "labels": [
+                "komutlar",
+                "sender",
+                "CommandExecutor"
+              ],
+              "description": "public class Welcome implements CommandExecutor { Eklenmelidir.",
+              "code": "@Override //not: birden fazla komut kullanılcaksa tek Override da aşağıdaki iflerden anlayabilirsin. ayrımı\n    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {\n        if (cmd.getName().equalsIgnoreCase(\"selam\")) {\n            Player player = (Player) sender;\n            Location oyuncukonumi = player.getLocation();\n            player.sendTitle(\"Sunucuya Hoşgeldin\", \"Nasılsın ?\");\n            if (player.getGameMode() == GameMode.CREATIVE) {\n                player.sendTitle(\"\", \"Birileri Yaratıcı modda LOL\");\n\n            }\n            if (player.getGameMode() == GameMode.ADVENTURE) {\n                player.getWorld().spawnParticle(Particle.ANGRY_VILLAGER, oyuncukonumi, 10);\n            }\n            return true;\n        }\n        else if (cmd.getName().equalsIgnoreCase(\"takim\")) {\n            // takımlar ve listlerini oluşturma\n            List<Player> redTeam = new ArrayList<>();\n            List<Player> blueTeam = new ArrayList<>();\n\n            //Oyuncuları alıyok dğerin ismi: \"online\" olan\n            Collection<? extends Player> online = Bukkit.getOnlinePlayers();\n            //liste oluşturdum\n            List<Player> oyuncular = new ArrayList<>();\n            //döngü ile dışardan oluşturduğum boku ekliyorum\n            for (Player p: online) {\n                oyuncular.add(p);\n            }\n            //rastgele karıştırma oyuncuları\n            Collections.shuffle(oyuncular);\n            //eşleme sistemi işte\n            for (int i = 0; i < oyuncular.size(); i++) {\n                if (i % 2 == 0) redTeam.add(oyuncular.get(i));\n                else blueTeam.add(oyuncular.get(i));\n            }\n            //burdaki kodlar sonrsı\n            for (Player p : redTeam) p.sendTitle(\"Artık Kırmızı\",\"Takımdasın\",10,70,20);\n            for (Player p : blueTeam) p.sendTitle(\"Artık Mavş\",\"Takımdasın\",10,70,20);\n            return true;\n        }\n        //eğer boş varsa bunu kullan eğer buda işe yaramıyorsa cevab AI da saklı LOL :)\n        return true;\n    }"
+            },
+
+            {
+              "id": "listeler",
+              "title": "Listeler - ArrayListler",
+              "tags": [
+                "arraylist",
+                "listeler"
+              ],
+              "labels": [
+                "arraylist",
+                "listeler"
+              ],
+              "description": "listeler ve detayları:",
+              "code": "// takımlar ve listlerini oluşturma\n            List<Player> redTeam = new ArrayList<>();\n            List<Player> blueTeam = new ArrayList<>();\n\n            //Oyuncuları alıyok dğerin ismi: \"online\" olan\n            Collection<? extends Player> online = Bukkit.getOnlinePlayers();\n            //liste oluşturdum\n            List<Player> oyuncular = new ArrayList<>();\n            //döngü ile dışardan oluşturduğum boku ekliyorum\n            for (Player p: online) {\n                oyuncular.add(p);\n            }\n            //rastgele karıştırma oyuncuları\n            Collections.shuffle(oyuncular);\n            //eşleme sistemi işte\n            for (int i = 0; i < oyuncular.size(); i++) {\n                if (i % 2 == 0) redTeam.add(oyuncular.get(i));\n                else blueTeam.add(oyuncular.get(i));\n            }\n            //burdaki kodlar sonrsı\n            for (Player p : redTeam) p.sendTitle(\"Artık Kırmızı\",\"Takımdasın\",10,70,20);\n            for (Player p : blueTeam) p.sendTitle(\"Artık Mavş\",\"Takımdasın\",10,70,20);\n            return true;"
+            },
+
+            {
+              "id": "tanim",
+              "title": "Event & Komut: Tanımlatma Ana Class'a",
+              "tags": [
+                "event",
+                "komut",
+                "tanim",
+                "main class"
+              ],
+              "labels": [
+                "event",
+                "komut",
+                "tanim",
+                "main",
+                "class"
+              ],
+              "description": "<p>İlk Öncelikle burdaki kısımda tanımlatmayı göreceksin. örnek: ana .java \"Main.java\" ise <br>\nbunları onEnable'da tanımlatmamız lazım aşağıda hem komutlar hem eventler için yazıyor<p>",
+              "code": "@Override\n    public void onEnable() {\n        Welcome welcome = new Welcome(); //bu menet şuna yarar;\n        //aşağıda olan komutlar için belirleyici nedenini sorgulama \"welcome\"\n\n        //eventler hepsini alır\n        getServer().getPluginManager().registerEvents(new Welcome(),this); //Welcome class ın ismi\n\n        //komutlar\n        this.getCommand(\"selam\").setExecutor(welcome);\n        this.getCommand(\"takim\").setExecutor(welcome);\n    }"
+            },
+            
+            {
+              "id": "item-verme",
+              "title": "İtem verme",
+              "tags": [
+                "itemverme",
+                "Command",
+                "Command Sender"
+              ],
+              "labels": [
+                "itemverme",
+                "Command",
+                "Command Sender"
+              ],
+              "description": "<p>Oyuncuya item vermek için aşağıda yazıyor..</p>",
+              "code": "public class Giver implements CommandExecutor {\n    @Override\n    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {\n        Player player = (Player) sender;\n        ItemStack item = new ItemStack(Material.APPLE, 32);\n        player.getInventory().addItem(item);\n        return true;\n    }"
+            },
+
+            {
+              "id": "komutlarda_console_fix",
+              "title": "Komularda Oyuncu kontrolü YANİ; console kullanamaz.",
+              "tags": [
+                "console fix",
+                "command"
+              ],
+              "labels": [
+                "console fix",
+                "command"
+              ],
+              "description": "açıklamaya gerek yok; sadece oyuncuları bulup kullanmasına izin veriyor.",
+              "code": "if (!(sender instanceof Player)) {\n    sender.sendMessage(\"Bu komut sadece oyuncular içindir.\");\n    return true;\n}"
+            },
+
+            {
+              "id": "variablar",
+              "title": "Variablar ve özel değerler",
+              "tags": [
+                "variable",
+                "değer"
+              ],
+              "labels": [
+                "variable",
+                "değer"
+              ],
+              "description": "Özel değerler ve tanımlamaları hepsi kodda:",
+              "code": "package dev.rowrain.hello;\n\nimport org.bukkit.Bukkit;\nimport org.bukkit.Material;\nimport org.bukkit.command.Command;\nimport org.bukkit.command.CommandExecutor;\nimport org.bukkit.command.CommandSender;\nimport org.bukkit.entity.Player;\nimport org.bukkit.inventory.ItemStack;\n\nimport java.util.HashMap;\nimport java.util.UUID;\n\npublic class ExampleVariables implements CommandExecutor {\n\n    /* =====================================================\n       GLOBAL (SUNUCU GENELİ) VARIABLE\n       ===================================================== */\n\n    // static = sınıfa ait\n    // Sunucuda TEK tane vardır\n    // Bir oyuncu değiştirirse herkes etkilenir\n    public static boolean gameStarted = false;\n\n\n    /* =====================================================\n       OYUNCUYA ÖZEL VARIABLE (BOOLEAN)\n       ===================================================== */\n\n    // Her oyuncunun kendi true / false değeri olur\n    // UUID = oyuncunun benzersiz kimliği\n    public static HashMap<UUID, Boolean> readyStatus = new HashMap<>();\n\n\n    /* =====================================================\n       OYUNCUYA ÖZEL VARIABLE (SAYISAL)\n       ===================================================== */\n\n    // Oyunculara ait puan, para, skor gibi değerler\n    public static HashMap<UUID, Integer> playerScore = new HashMap<>();\n\n\n    /* =====================================================\n       COMMAND KISMI\n       ===================================================== */\n\n    @Override\n    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {\n\n        // Komutu sadece oyuncular kullansın\n        if (!(sender instanceof Player)) return true;\n        Player player = (Player) sender;\n\n        /* ---------- /baslat ---------- */\n        if (cmd.getName().equalsIgnoreCase(\"baslat\")) {\n\n            // Global variable true yapılıyor\n            gameStarted = true;\n            player.sendMessage(\"Oyun başlatıldı\");\n\n            return true;\n        }\n\n        /* ---------- /hazir ---------- */\n        if (cmd.getName().equalsIgnoreCase(\"hazir\")) {\n\n            // Oyuncunun hazır durumu true yapılıyor\n            readyStatus.put(player.getUniqueId(), true);\n            player.sendMessage(\"Hazır olarak işaretlendin\");\n\n            return true;\n        }\n\n        /* ---------- /puan ---------- */\n        if (cmd.getName().equalsIgnoreCase(\"puan\")) {\n\n            // Eğer oyuncunun puanı yoksa 0 kabul edilir\n            int eskiPuan = playerScore.getOrDefault(player.getUniqueId(), 0);\n\n            // 10 puan eklenir\n            playerScore.put(player.getUniqueId(), eskiPuan + 10);\n\n            player.sendMessage(\"Yeni puanın: \" + (eskiPuan + 10));\n            return true;\n        }\n\n        /* ---------- /durum ---------- */\n        if (cmd.getName().equalsIgnoreCase(\"durum\")) {\n\n            // Global gameStarted kontrolü\n            if (gameStarted) {\n                player.sendMessage(\"Oyun şu an AÇIK\");\n            } else {\n                player.sendMessage(\"Oyun şu an KAPALI\");\n            }\n\n            // Oyuncuya özel ready kontrolü\n            boolean hazirMi = readyStatus.getOrDefault(player.getUniqueId(), false);\n\n            if (hazirMi) {\n                player.sendMessage(\"Hazır durumdasın\");\n            } else {\n                player.sendMessage(\"Hazır değilsin\");\n            }\n\n            return true;\n        }\n\n        /* ---------- /esyaver ---------- */\n        if (cmd.getName().equalsIgnoreCase(\"esyaver\")) {\n\n            // Oyuncuya item verme örneği\n            ItemStack item = new ItemStack(Material.APPLE, 32);\n            player.getInventory().addItem(item);\n\n            player.sendMessage(\"32 elma verildi\");\n            return true;\n        }\n\n        return true;\n    }\n}"
+            },
+
+            {
+              "id": "arg1",
+              "title": "Arglar ve TAB Tamamlaması",
+              "tags": [
+                "Arg",
+                "Tab",
+                "Command"
+              ],
+              "labels": [
+                "Arg",
+                "Tab",
+                "Command"
+              ],
+              "description": "Aşağıda detaylar yazıyor::",
+              "code": "//PLUGİN YML: \ncommands:\n  test:\n    description: Test command\n    usage: /test <add|remove> <isim>\n\n\n//KOD:\npublic class TestCommand implements CommandExecutor {\n\n    @Override\n    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {\n\n        if (!(sender instanceof Player)) {\n            sender.sendMessage(\"Bu komut sadece oyuncular için.\");\n            return true;\n        }\n\n        Player player = (Player) sender;\n\n        // /test\n        if (args.length == 0) {\n            player.sendMessage(\"/test add <isim>\");\n            player.sendMessage(\"/test remove <isim>\");\n            return true;\n        }\n\n        // /test add | remove\n        if (args.length == 1) {\n\n            if (args[0].equalsIgnoreCase(\"add\")) {\n                player.sendMessage(\"Ne ekleyeceğini yazman lazım.\");\n                return true;\n            }\n\n            if (args[0].equalsIgnoreCase(\"remove\")) {\n                player.sendMessage(\"Neyi sileceğini yazman lazım.\");\n                return true;\n            }\n\n            player.sendMessage(\"Geçersiz argüman.\");\n            return true;\n        }\n\n        // /test add elma\n        if (args.length == 2) {\n\n            String sub = args[0];\n            String isim = args[1];\n\n            if (sub.equalsIgnoreCase(\"add\")) {\n                player.sendMessage(isim + \" eklendi.\");\n                return true;\n            }\n\n            if (sub.equalsIgnoreCase(\"remove\")) {\n                player.sendMessage(isim + \" silindi.\");\n                return true;\n            }\n\n            player.sendMessage(\"Bilinmeyen işlem.\");\n            return true;\n        }\n\n        return true;\n    }\n}\n\n// BUDA TAB MUHABBETİ:\npublic class TestCommand implements CommandExecutor, TabCompleter {\n//BUNU EKLEMEK GEREK:\n\n@Override\npublic List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {\n\n    List<String> list = new ArrayList<>();\n\n    // /test <TAB>\n    if (args.length == 1) {\n        list.add(\"add\");\n        list.add(\"remove\");\n        return list;\n    }\n\n    // /test add <TAB>\n    if (args.length == 2) {\n\n        if (args[0].equalsIgnoreCase(\"add\")) {\n            list.add(\"elma\");\n            list.add(\"armut\");\n            list.add(\"muz\");\n            return list;\n        }\n\n        if (args[0].equalsIgnoreCase(\"remove\")) {\n            list.add(\"elma\");\n            list.add(\"armut\");\n            return list;\n        }\n    }\n\n    return list;\n}"
+            },
+
+            {
+              "id": "item-tespit",
+              "title": "İtem Tespiti elde",
+              "tags": [
+                "item",
+                "item tespit",
+                "item listen"
+              ],
+              "labels": [
+                "item",
+                "item tespit",
+                "item listen"
+              ],
+              "description": "Aşağıda itemin kullanıcı kontrolünün java kodu yer alıyor..",
+              "code": "package dev.rowrain.fearts;\n\nimport org.bukkit.Material;\nimport org.bukkit.entity.EntityType;\nimport org.bukkit.entity.Player;\nimport org.bukkit.event.EventHandler;\nimport org.bukkit.event.Listener;\nimport org.bukkit.event.player.PlayerInteractEvent;\nimport org.bukkit.inventory.ItemStack;\n\npublic class Guns implements Listener {\n    @EventHandler\n    public void Silah(PlayerInteractEvent event) {\n        Player p = event.getPlayer();\n        ItemStack pistol = p.getInventory().getItemInMainHand();\n        if (pistol.getType() == Material.STONE_HOE) {\n\n        }\n    }\n}"
+            }
+
+
+          ]
+        }
+      }
+    },
+    "hytale": {
+      "name": "Hytale",
+      "icon": "🏰",
+      "subcategories": {}
+    }
+  }
