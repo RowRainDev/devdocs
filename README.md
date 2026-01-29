@@ -40,5 +40,5 @@ bundan kullanmanız önerilir.
 
 ### 1️⃣ Projeyi klonla
 ```bash
-git clone https://github.com/kullanici-adi/devdocs.git
+git clone https://github.com/rowraindev/devdocs.git
 cd devdocs
