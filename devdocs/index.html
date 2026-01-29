@@ -628,6 +628,89 @@
 
         .copy-json-btn.copied { background: #22c55e; }
 
+        /* TOOL CONTAINER */
+        .tool-container {
+            background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+
+        .tool-input-group {
+            margin-bottom: 20px;
+        }
+
+        .tool-label {
+            display: block;
+            color: #888;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 14px 16px;
+            background: #050505;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .tool-textarea:focus {
+            outline: none;
+            border-color: #333;
+            box-shadow: 0 0 0 3px rgba(168,85,247,0.1);
+        }
+
+        .tool-textarea::placeholder { color: #444; }
+
+        .tool-output {
+            background: #050505;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 16px;
+            min-height: 60px;
+            font-size: 18px;
+            color: #a855f7;
+            word-break: break-all;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .tool-output-placeholder {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .tool-copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tool-copy-btn:hover {
+            background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+        }
+
+        .tool-copy-btn.copied {
+            background: #22c55e;
+        }
+
         /* FOOTER */
         .footer-credit {
             text-align: center;
@@ -975,6 +1058,7 @@
             renderDocsNav(currentDocs, scrollToDocId);
             requestAnimationFrame(() => {
                 Prism.highlightAll();
+                initToolListeners();
                 if (scrollToDocId !== null) {
                     scrollToDoc(scrollToDocId);
                 }
@@ -988,6 +1072,7 @@
                     <div>${doc.labels.map(l => `<span class="tag">${escapeHtml(l)}</span>`).join('')}</div>
                     <div class="doc-description">${doc.description}</div>
                     ${doc.code ? `<div class="doc-code"><pre><code class="language-java">${escapeHtml(doc.code)}</code></pre></div>` : ''}
+                    ${doc.type === 'tool' && doc.toolId ? renderTool(doc.toolId) : ''}
                 </div>
             `).join('');
         }
@@ -1041,6 +1126,72 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        // Mini Font Generator Tool
+        const smallCapsMap = {
+            'a': 'ᴀ', 'b': 'ʙ', 'c': 'ᴄ', 'd': 'ᴅ', 'e': 'ᴇ', 'f': 'ꜰ', 'g': 'ɢ', 'h': 'ʜ',
+            'i': 'ɪ', 'j': 'ᴊ', 'k': 'ᴋ', 'l': 'ʟ', 'm': 'ᴍ', 'n': 'ɴ', 'o': 'ᴏ', 'p': 'ᴘ',
+            'q': 'ǫ', 'r': 'ʀ', 's': 'ꜱ', 't': 'ᴛ', 'u': 'ᴜ', 'v': 'ᴠ', 'w': 'ᴡ', 'x': 'x',
+            'y': 'ʏ', 'z': 'ᴢ',
+            'A': 'ᴀ', 'B': 'ʙ', 'C': 'ᴄ', 'D': 'ᴅ', 'E': 'ᴇ', 'F': 'ꜰ', 'G': 'ɢ', 'H': 'ʜ',
+            'I': 'ɪ', 'J': 'ᴊ', 'K': 'ᴋ', 'L': 'ʟ', 'M': 'ᴍ', 'N': 'ɴ', 'O': 'ᴏ', 'P': 'ᴘ',
+            'Q': 'ǫ', 'R': 'ʀ', 'S': 'ꜱ', 'T': 'ᴛ', 'U': 'ᴜ', 'V': 'ᴠ', 'W': 'ᴡ', 'X': 'x',
+            'Y': 'ʏ', 'Z': 'ᴢ'
+        };
+
+        function convertToSmallCaps(text) {
+            return text.split('').map(char => smallCapsMap[char] || char).join('');
+        }
+
+        function renderTool(toolId) {
+            if (toolId === 'mini-font-generator') {
+                return `
+                    <div class="tool-container" id="miniFontTool">
+                        <div class="tool-input-group">
+                            <label class="tool-label">Metin Girin</label>
+                            <textarea class="tool-textarea" id="miniFontInput" placeholder="Metninizi buraya yazın..."></textarea>
+                        </div>
+                        <div class="tool-input-group">
+                            <label class="tool-label">Sonuç (Küçük Büyük)</label>
+                            <div class="tool-output" id="miniFontOutput">
+                                <span class="tool-output-placeholder">Sonuç burada görünecek...</span>
+                                <button class="tool-copy-btn" id="miniFontCopy" style="display:none;">Kopyala</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            return '';
+        }
+
+        function initToolListeners() {
+            const miniFontInput = document.getElementById('miniFontInput');
+            const miniFontOutput = document.getElementById('miniFontOutput');
+            const miniFontCopy = document.getElementById('miniFontCopy');
+            
+            if (miniFontInput && miniFontOutput) {
+                miniFontInput.addEventListener('input', (e) => {
+                    const text = e.target.value;
+                    if (text.length > 0) {
+                        const converted = convertToSmallCaps(text);
+                        miniFontOutput.innerHTML = `${converted}<button class="tool-copy-btn" id="miniFontCopy">Kopyala</button>`;
+                        document.getElementById('miniFontCopy').addEventListener('click', () => {
+                            navigator.clipboard.writeText(converted).then(() => {
+                                const btn = document.getElementById('miniFontCopy');
+                                btn.textContent = 'Kopyalandı!';
+                                btn.classList.add('copied');
+                                setTimeout(() => {
+                                    btn.textContent = 'Kopyala';
+                                    btn.classList.remove('copied');
+                                }, 1500);
+                            });
+                        });
+                    } else {
+                        miniFontOutput.innerHTML = '<span class="tool-output-placeholder">Sonuç burada görünecek...</span>';
+                    }
+                });
+            }
         }
 
         // JSON Editor functions
