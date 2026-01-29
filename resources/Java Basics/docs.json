@@ -1,0 +1,132 @@
+{
+  "java-basics": {
+    "name": "Java Basics",
+    "icon": "☕",
+    "subcategories": {
+      "fundamentals": {
+        "name": "Temel Kavramlar",
+        "icon": "📚",
+        "docs": [
+          {
+            "id": "degiskenler",
+            "title": "Değişkenler (Variables)",
+            "tags": ["variable", "int", "string", "double", "boolean", "değişken"],
+            "labels": ["Temel", "Değişkenler"],
+            "description": "<p><strong>Değişkenler</strong> programlamada veri saklamak için kullanılır. Java'da farklı veri tipleri vardır.</p><ul><li>int - Tam sayılar için</li><li>double - Ondalıklı sayılar için</li><li>String - Metin için</li><li>boolean - true/false değerleri için</li></ul>",
+            "code": "// Tam sayı\nint yas = 25;\nint puan = 100;\n\n// Ondalıklı sayı\ndouble fiyat = 19.99;\ndouble sicaklik = 36.5;\n\n// Metin\nString isim = \"Ahmet\";\nString sehir = \"İstanbul\";\n\n// Boolean (true/false)\nboolean aktif = true;\nboolean oyuncu = false;\n\n// Değişken değiştirme\nyas = 26;\npuan = puan + 10;"
+          },
+          {
+            "id": "if-else",
+            "title": "If-Else Koşulları",
+            "tags": ["if", "else", "koşul", "condition"],
+            "labels": ["Kontrol", "Koşul"],
+            "description": "<p><strong>If-Else</strong> yapıları programda karar verme mekanizmasıdır.</p><ul><li>if - Koşul doğruysa çalışır</li><li>else if - Alternatif koşul</li><li>else - Hiçbir koşul sağlanmazsa</li></ul>",
+            "code": "int yas = 18;\n\n// Basit if\nif (yas >= 18) {\n    System.out.println(\"Reşitsiniz\");\n}\n\n// If-Else\nif (yas >= 18) {\n    System.out.println(\"Reşitsiniz\");\n} else {\n    System.out.println(\"Reşit değilsiniz\");\n}\n\n// If-Else If-Else\nint puan = 85;\n\nif (puan >= 90) {\n    System.out.println(\"Mükemmel\");\n} else if (puan >= 70) {\n    System.out.println(\"İyi\");\n} else if (puan >= 50) {\n    System.out.println(\"Orta\");\n} else {\n    System.out.println(\"Başarısız\");\n}\n\n// Karşılaştırma operatörleri\nif (yas == 18) { }  // Eşit mi?\nif (yas != 18) { }  // Eşit değil mi?\nif (yas > 18) { }   // Büyük mü?\nif (yas < 18) { }   // Küçük mü?\nif (yas >= 18) { }  // Büyük veya eşit mi?\nif (yas <= 18) { }  // Küçük veya eşit mi?"
+          },
+          {
+            "id": "donguler",
+            "title": "Döngüler (Loops)",
+            "tags": ["for", "while", "döngü", "loop"],
+            "labels": ["Döngü", "Loop"],
+            "description": "<p><strong>Döngüler</strong> belirli bir işlemi tekrar tekrar yapmak için kullanılır.</p><ul><li>for - Belirli sayıda tekrar</li><li>while - Koşul sağlandığı sürece</li><li>for-each - Liste/dizi elemanlarını dolaşma</li></ul>",
+            "code": "// For döngüsü - 0'dan 10'a kadar\nfor (int i = 0; i < 10; i++) {\n    System.out.println(i);\n}\n\n// For döngüsü - 1'den 5'e kadar\nfor (int i = 1; i <= 5; i++) {\n    System.out.println(\"Sayı: \" + i);\n}\n\n// While döngüsü\nint sayi = 0;\nwhile (sayi < 5) {\n    System.out.println(sayi);\n    sayi++;\n}\n\n// Do-While döngüsü (en az 1 kere çalışır)\nint x = 0;\ndo {\n    System.out.println(x);\n    x++;\n} while (x < 3);\n\n// Break - döngüyü sonlandırma\nfor (int i = 0; i < 10; i++) {\n    if (i == 5) {\n        break; // i 5 olunca dur\n    }\n    System.out.println(i);\n}\n\n// Continue - bir sonraki turla devam et\nfor (int i = 0; i < 5; i++) {\n    if (i == 2) {\n        continue; // 2'yi atla\n    }\n    System.out.println(i);\n}"
+          },
+          {
+            "id": "arrayler",
+            "title": "Diziler (Arrays)",
+            "tags": ["array", "dizi", "liste"],
+            "labels": ["Array", "Dizi"],
+            "description": "<p><strong>Diziler</strong> aynı türden birden fazla veriyi saklamak için kullanılır.</p>",
+            "code": "// Dizi oluşturma\nint[] sayilar = new int[5];\nString[] isimler = new String[3];\n\n// Değer atama\nsayilar[0] = 10;\nsayilar[1] = 20;\nsayilar[2] = 30;\n\n// Direkt değerlerle oluşturma\nint[] puanlar = {90, 85, 78, 92};\nString[] sehirler = {\"İstanbul\", \"Ankara\", \"İzmir\"};\n\n// Dizi uzunluğu\nint uzunluk = puanlar.length; // 4\n\n// Dizide dolaşma\nfor (int i = 0; i < puanlar.length; i++) {\n    System.out.println(puanlar[i]);\n}\n\n// For-each ile dolaşma\nfor (int puan : puanlar) {\n    System.out.println(puan);\n}\n\nfor (String sehir : sehirler) {\n    System.out.println(sehir);\n}"
+          },
+          {
+            "id": "metodlar",
+            "title": "Metodlar (Methods)",
+            "tags": ["method", "fonksiyon", "metod", "function"],
+            "labels": ["Method", "Fonksiyon"],
+            "description": "<p><strong>Metodlar</strong> kodun belirli bir bölümünü tekrar kullanılabilir hale getirir.</p>",
+            "code": "// Basit metod (void - geriye değer döndürmez)\npublic void selamVer() {\n    System.out.println(\"Merhaba!\");\n}\n\n// Parametreli metod\npublic void selamla(String isim) {\n    System.out.println(\"Merhaba \" + isim);\n}\n\n// Geriye değer döndüren metod\npublic int topla(int a, int b) {\n    return a + b;\n}\n\npublic double ortalama(double sayi1, double sayi2) {\n    return (sayi1 + sayi2) / 2;\n}\n\n// Kullanım örnekleri\npublic static void main(String[] args) {\n    // Void metod çağırma\n    selamVer();\n    selamla(\"Ahmet\");\n    \n    // Değer döndüren metod\n    int sonuc = topla(5, 3);\n    System.out.println(\"Toplam: \" + sonuc);\n    \n    double ort = ortalama(80, 90);\n    System.out.println(\"Ortalama: \" + ort);\n}\n\n// Birden fazla parametre\npublic String birlestir(String ad, String soyad, int yas) {\n    return ad + \" \" + soyad + \" - \" + yas + \" yaşında\";\n}"
+          },
+          {
+            "id": "class-olusturma",
+            "title": "Class (Sınıf) Oluşturma",
+            "tags": ["class", "sınıf", "oop", "constructor"],
+            "labels": ["OOP", "Class"],
+            "description": "<p><strong>Class</strong> yapısı Java'nın temel taşıdır. Nesneler (objects) oluşturmak için kullanılır.</p>",
+            "code": "// Basit bir class\npublic class Oyuncu {\n    // Özellikler (fields)\n    String isim;\n    int seviye;\n    int can;\n    \n    // Constructor (yapıcı metod)\n    public Oyuncu(String isim, int seviye) {\n        this.isim = isim;\n        this.seviye = seviye;\n        this.can = 100;\n    }\n    \n    // Metodlar\n    public void hasarAl(int hasar) {\n        can = can - hasar;\n        System.out.println(isim + \" \" + hasar + \" hasar aldı!\");\n    }\n    \n    public void seviyeliAt() {\n        seviye++;\n        System.out.println(isim + \" seviye atladı! Yeni seviye: \" + seviye);\n    }\n    \n    public void bilgiGoster() {\n        System.out.println(\"İsim: \" + isim);\n        System.out.println(\"Seviye: \" + seviye);\n        System.out.println(\"Can: \" + can);\n    }\n}\n\n// Kullanım\npublic class Main {\n    public static void main(String[] args) {\n        // Nesne oluşturma\n        Oyuncu oyuncu1 = new Oyuncu(\"Ahmet\", 1);\n        Oyuncu oyuncu2 = new Oyuncu(\"Mehmet\", 5);\n        \n        // Metodları çağırma\n        oyuncu1.bilgiGoster();\n        oyuncu1.hasarAl(20);\n        oyuncu1.seviyeliAt();\n    }\n}"
+          },
+          {
+            "id": "arraylist",
+            "title": "ArrayList Kullanımı",
+            "tags": ["arraylist", "list", "collection"],
+            "labels": ["ArrayList", "Collection"],
+            "description": "<p><strong>ArrayList</strong> boyutu dinamik olan liste yapısıdır. Normal arraylerden farklı olarak eleman ekleme/çıkarma kolaydır.</p>",
+            "code": "import java.util.ArrayList;\nimport java.util.Collections;\n\n// ArrayList oluşturma\nArrayList<String> isimler = new ArrayList<>();\nArrayList<Integer> sayilar = new ArrayList<>();\n\n// Eleman ekleme\nisimler.add(\"Ahmet\");\nisimler.add(\"Mehmet\");\nisimler.add(\"Ayşe\");\n\nsayilar.add(10);\nsayilar.add(20);\nsayilar.add(30);\n\n// Belirli indexe ekleme\nisimler.add(1, \"Ali\"); // 1. index'e ekle\n\n// Eleman alma\nString ilkIsim = isimler.get(0);\nint ilkSayi = sayilar.get(0);\n\n// Eleman silme\nisimler.remove(\"Mehmet\"); // İsme göre sil\nisimler.remove(0); // Index'e göre sil\n\n// Liste boyutu\nint boyut = isimler.size();\n\n// Liste temizleme\nisimler.clear();\n\n// Eleman var mı kontrolü\nboolean varMi = isimler.contains(\"Ahmet\");\n\n// Boş mu kontrolü\nboolean bosMu = isimler.isEmpty();\n\n// Döngü ile dolaşma\nfor (int i = 0; i < isimler.size(); i++) {\n    System.out.println(isimler.get(i));\n}\n\n// For-each ile\nfor (String isim : isimler) {\n    System.out.println(isim);\n}\n\n// Sıralama\nCollections.sort(isimler); // A'dan Z'ye\nCollections.reverse(isimler); // Tersine çevir\nCollections.shuffle(isimler); // Karıştır"
+          },
+          {
+            "id": "string-islemleri",
+            "title": "String İşlemleri",
+            "tags": ["string", "text", "metin"],
+            "labels": ["String", "Text"],
+            "description": "<p><strong>String</strong> metinlerle çalışmak için kullanılan temel veri tipidir.</p>",
+            "code": "String metin = \"Merhaba Dünya\";\n\n// Uzunluk\nint uzunluk = metin.length(); // 13\n\n// Büyük/küçük harf\nString buyuk = metin.toUpperCase(); // \"MERHABA DÜNYA\"\nString kucuk = metin.toLowerCase(); // \"merhaba dünya\"\n\n// Karakter alma\nchar ilkHarf = metin.charAt(0); // 'M'\n\n// Alt string\nString parcala = metin.substring(0, 7); // \"Merhaba\"\nString sonKisim = metin.substring(8); // \"Dünya\"\n\n// İçeriyor mu?\nboolean varMi = metin.contains(\"Dünya\"); // true\n\n// Başlangıç/bitiş kontrolü\nboolean baslar = metin.startsWith(\"Mer\"); // true\nboolean biter = metin.endsWith(\"nya\"); // true\n\n// Değiştirme\nString degisti = metin.replace(\"Dünya\", \"World\");\n\n// Bölme (split)\nString cumle = \"elma,armut,muz\";\nString[] meyveler = cumle.split(\",\");\n// meyveler[0] = \"elma\"\n// meyveler[1] = \"armut\"\n// meyveler[2] = \"muz\"\n\n// Boşlukları temizle\nString bosluklu = \"  merhaba  \";\nString temiz = bosluklu.trim(); // \"merhaba\"\n\n// Birleştirme\nString isim = \"Ahmet\";\nString soyisim = \"Yılmaz\";\nString tamIsim = isim + \" \" + soyisim;\n\n// String formatı\nint yas = 25;\nString mesaj = String.format(\"%s %d yaşında\", isim, yas);\n\n// Eşitlik kontrolü\nString a = \"test\";\nString b = \"test\";\nboolean esit = a.equals(b); // true\nboolean esitBuyukKucuk = a.equalsIgnoreCase(\"TEST\"); // true"
+          },
+          {
+            "id": "hashmap",
+            "title": "HashMap Kullanımı",
+            "tags": ["hashmap", "map", "key-value"],
+            "labels": ["HashMap", "Collection"],
+            "description": "<p><strong>HashMap</strong> anahtar-değer çiftlerini saklamak için kullanılır.</p>",
+            "code": "import java.util.HashMap;\nimport java.util.Map;\n\n// HashMap oluşturma\nHashMap<String, Integer> yaslar = new HashMap<>();\nHashMap<Integer, String> oyuncular = new HashMap<>();\n\n// Eleman ekleme\nyaslar.put(\"Ahmet\", 25);\nyaslar.put(\"Mehmet\", 30);\nyaslar.put(\"Ayşe\", 28);\n\noyuncular.put(1, \"Ahmet\");\noyuncular.put(2, \"Mehmet\");\n\n// Değer alma\nint ahmetYas = yaslar.get(\"Ahmet\"); // 25\nString oyuncu = oyuncular.get(1); // \"Ahmet\"\n\n// Varsayılan değerle alma (yoksa)\nint yas = yaslar.getOrDefault(\"Ali\", 0); // \"Ali\" yoksa 0 döner\n\n// Var mı kontrolü\nboolean varMi = yaslar.containsKey(\"Ahmet\");\nboolean degerVar = yaslar.containsValue(25);\n\n// Eleman silme\nyaslar.remove(\"Mehmet\");\n\n// Boyut\nint boyut = yaslar.size();\n\n// Tüm elemanları döngüyle gezme\nfor (String isim : yaslar.keySet()) {\n    int yas = yaslar.get(isim);\n    System.out.println(isim + \": \" + yas);\n}\n\n// Entry ile gezme\nfor (Map.Entry<String, Integer> entry : yaslar.entrySet()) {\n    System.out.println(entry.getKey() + \": \" + entry.getValue());\n}\n\n// Temizleme\nyaslar.clear();"
+          },
+          {
+            "id": "try-catch",
+            "title": "Try-Catch (Hata Yakalama)",
+            "tags": ["try", "catch", "exception", "hata"],
+            "labels": ["Exception", "Hata"],
+            "description": "<p><strong>Try-Catch</strong> programdaki hataları yakalamak ve yönetmek için kullanılır.</p>",
+            "code": "// Basit try-catch\ntry {\n    int sayi = Integer.parseInt(\"abc\"); // Hata verir\n} catch (Exception e) {\n    System.out.println(\"Bir hata oluştu!\");\n}\n\n// Belirli hata tipi\ntry {\n    int[] sayilar = {1, 2, 3};\n    System.out.println(sayilar[10]); // Index hatası\n} catch (ArrayIndexOutOfBoundsException e) {\n    System.out.println(\"Dizide böyle bir index yok!\");\n}\n\n// Birden fazla catch\ntry {\n    String metin = null;\n    System.out.println(metin.length());\n} catch (NullPointerException e) {\n    System.out.println(\"Değer null!\");\n} catch (Exception e) {\n    System.out.println(\"Başka bir hata!\");\n}\n\n// Finally bloğu (her zaman çalışır)\ntry {\n    int sonuc = 10 / 0;\n} catch (ArithmeticException e) {\n    System.out.println(\"Sıfıra bölme hatası!\");\n} finally {\n    System.out.println(\"Bu her zaman çalışır\");\n}\n\n// Hata mesajını yazdırma\ntry {\n    int sayi = Integer.parseInt(\"xyz\");\n} catch (NumberFormatException e) {\n    System.out.println(\"Hata: \" + e.getMessage());\n    e.printStackTrace(); // Detaylı hata\n}"
+          }
+        ]
+      },
+      "oop": {
+        "name": "OOP Kavramları",
+        "icon": "🎯",
+        "docs": [
+          {
+            "id": "inheritance",
+            "title": "Kalıtım (Inheritance)",
+            "tags": ["inheritance", "extends", "kalıtım", "miras"],
+            "labels": ["OOP", "Inheritance"],
+            "description": "<p><strong>Kalıtım</strong> bir class'ın başka bir class'tan özelliklerini almasıdır.</p>",
+            "code": "// Ana class (Parent/Superclass)\npublic class Hayvan {\n    String isim;\n    int yas;\n    \n    public void sesCikar() {\n        System.out.println(\"Hayvan ses çıkarıyor\");\n    }\n    \n    public void bilgiGoster() {\n        System.out.println(\"İsim: \" + isim + \", Yaş: \" + yas);\n    }\n}\n\n// Alt class (Child/Subclass)\npublic class Kedi extends Hayvan {\n    String cins;\n    \n    // Override - Üst class'ın metodunu değiştirme\n    @Override\n    public void sesCikar() {\n        System.out.println(\"Miyav miyav!\");\n    }\n    \n    // Kedi'ye özel metod\n    public void tirmanabilir() {\n        System.out.println(isim + \" ağaca tırmanıyor\");\n    }\n}\n\npublic class Kopek extends Hayvan {\n    boolean egitimli;\n    \n    @Override\n    public void sesCikar() {\n        System.out.println(\"Hav hav!\");\n    }\n    \n    public void komuDinle() {\n        if (egitimli) {\n            System.out.println(isim + \" komutu dinliyor\");\n        }\n    }\n}\n\n// Kullanım\npublic class Main {\n    public static void main(String[] args) {\n        Kedi kedi = new Kedi();\n        kedi.isim = \"Minnoş\"; // Hayvan'dan gelen\n        kedi.yas = 3; // Hayvan'dan gelen\n        kedi.cins = \"Tekir\"; // Kedi'ye özel\n        \n        kedi.sesCikar(); // \"Miyav miyav!\"\n        kedi.bilgiGoster(); // Hayvan'dan gelen metod\n        kedi.tirmanabilir();\n    }\n}"
+          },
+          {
+            "id": "encapsulation",
+            "title": "Kapsülleme (Encapsulation)",
+            "tags": ["encapsulation", "private", "getter", "setter", "kapsülleme"],
+            "labels": ["OOP", "Encapsulation"],
+            "description": "<p><strong>Kapsülleme</strong> class içindeki verileri korumak ve kontrollü erişim sağlamak için kullanılır.</p>",
+            "code": "public class BankaHesabi {\n    // Private - dışarıdan direkt erişilemez\n    private String hesapNo;\n    private double bakiye;\n    private String sahip;\n    \n    // Constructor\n    public BankaHesabi(String hesapNo, String sahip) {\n        this.hesapNo = hesapNo;\n        this.sahip = sahip;\n        this.bakiye = 0;\n    }\n    \n    // Getter - okuma erişimi\n    public double getBakiye() {\n        return bakiye;\n    }\n    \n    public String getHesapNo() {\n        return hesapNo;\n    }\n    \n    public String getSahip() {\n        return sahip;\n    }\n    \n    // Setter - yazma erişimi (kontrollü)\n    public void setSahip(String sahip) {\n        if (sahip != null && !sahip.isEmpty()) {\n            this.sahip = sahip;\n        }\n    }\n    \n    // Kontrollü para yatırma\n    public void paraYatir(double miktar) {\n        if (miktar > 0) {\n            bakiye += miktar;\n            System.out.println(miktar + \"TL yatırıldı\");\n        } else {\n            System.out.println(\"Geçersiz miktar!\");\n        }\n    }\n    \n    // Kontrollü para çekme\n    public boolean paraCek(double miktar) {\n        if (miktar > 0 && miktar <= bakiye) {\n            bakiye -= miktar;\n            System.out.println(miktar + \"TL çekildi\");\n            return true;\n        } else {\n            System.out.println(\"Yetersiz bakiye veya geçersiz miktar!\");\n            return false;\n        }\n    }\n}\n\n// Kullanım\npublic class Main {\n    public static void main(String[] args) {\n        BankaHesabi hesap = new BankaHesabi(\"12345\", \"Ahmet\");\n        \n        // hesap.bakiye = 1000000; // HATA! private'a erişilemez\n        \n        hesap.paraYatir(500);\n        hesap.paraCek(200);\n        \n        System.out.println(\"Bakiye: \" + hesap.getBakiye());\n    }\n}"
+          },
+          {
+            "id": "polymorphism",
+            "title": "Çok Biçimlilik (Polymorphism)",
+            "tags": ["polymorphism", "override", "çok biçimlilik"],
+            "labels": ["OOP", "Polymorphism"],
+            "description": "<p><strong>Polymorphism</strong> aynı metodun farklı class'larda farklı şekilde çalışmasıdır.</p>",
+            "code": "// Ana class\npublic abstract class Sekil {\n    String renk;\n    \n    // Abstract metod - alt class'lar bunu implement etmeli\n    public abstract double alanHesapla();\n    \n    public void renkBelirle(String renk) {\n        this.renk = renk;\n    }\n}\n\n// Daire class'ı\npublic class Daire extends Sekil {\n    double yaricap;\n    \n    public Daire(double yaricap) {\n        this.yaricap = yaricap;\n    }\n    \n    @Override\n    public double alanHesapla() {\n        return Math.PI * yaricap * yaricap;\n    }\n}\n\n// Dikdörtgen class'ı\npublic class Dikdortgen extends Sekil {\n    double genislik;\n    double yukseklik;\n    \n    public Dikdortgen(double genislik, double yukseklik) {\n        this.genislik = genislik;\n        this.yukseklik = yukseklik;\n    }\n    \n    @Override\n    public double alanHesapla() {\n        return genislik * yukseklik;\n    }\n}\n\n// Üçgen class'ı\npublic class Ucgen extends Sekil {\n    double taban;\n    double yukseklik;\n    \n    public Ucgen(double taban, double yukseklik) {\n        this.taban = taban;\n        this.yukseklik = yukseklik;\n    }\n    \n    @Override\n    public double alanHesapla() {\n        return (taban * yukseklik) / 2;\n    }\n}\n\n// Kullanım - Polymorphism\npublic class Main {\n    public static void main(String[] args) {\n        // Aynı tip (Sekil) farklı davranışlar\n        Sekil sekil1 = new Daire(5);\n        Sekil sekil2 = new Dikdortgen(4, 6);\n        Sekil sekil3 = new Ucgen(3, 8);\n        \n        // Hepsi aynı metod ama farklı hesaplama\n        System.out.println(\"Daire alanı: \" + sekil1.alanHesapla());\n        System.out.println(\"Dikdörtgen alanı: \" + sekil2.alanHesapla());\n        System.out.println(\"Üçgen alanı: \" + sekil3.alanHesapla());\n        \n        // Array içinde polymorphism\n        Sekil[] sekiller = {sekil1, sekil2, sekil3};\n        \n        for (Sekil sekil : sekiller) {\n            System.out.println(\"Alan: \" + sekil.alanHesapla());\n        }\n    }\n}"
+          },
+          {
+            "id": "interface",
+            "title": "Interface Kullanımı",
+            "tags": ["interface", "implements", "arayüz"],
+            "labels": ["OOP", "Interface"],
+            "description": "<p><strong>Interface</strong> bir sözleşme gibidir. Implement eden class'lar tüm metodları tanımlamak zorundadır.</p>",
+            "code": "// Interface tanımlama\npublic interface Ucabilir {\n    void uc();\n    void inis();\n    int maksimumYukseklik();\n}\n\npublic interface Yuzebilir {\n    void yuz();\n    void dal();\n}\n\n// Sadece uçabilen\npublic class Ucak implements Ucabilir {\n    @Override\n    public void uc() {\n        System.out.println(\"Uçak uçuyor\");\n    }\n    \n    @Override\n    public void inis() {\n        System.out.println(\"Uçak iniş yapıyor\");\n    }\n    \n    @Override\n    public int maksimumYukseklik() {\n        return 10000;\n    }\n}\n\n// Hem uçabilen hem yüzebilen\npublic class Ordek implements Ucabilir, Yuzebilir {\n    @Override\n    public void uc() {\n        System.out.println(\"Ördek uçuyor\");\n    }\n    \n    @Override\n    public void inis() {\n        System.out.println(\"Ördek iniyor\");\n    }\n    \n    @Override\n    public int maksimumYukseklik() {\n        return 100;\n    }\n    \n    @Override\n    public void yuz() {\n        System.out.println(\"Ördek yüzüyor\");\n    }\n    \n    @Override\n    public void dal() {\n        System.out.println(\"Ördek dalıyor\");\n    }\n}\n\n// Kullanım\npublic class Main {\n    public static void main(String[] args) {\n        Ucak ucak = new Ucak();\n        ucak.uc();\n        \n        Ordek ordek = new Ordek();\n        ordek.uc();\n        ordek.yuz();\n        \n        // Interface tip olarak kullanma\n        Ucabilir sey = new Ordek();\n        sey.uc(); // Sadece Ucabilir metodlarına erişebilir\n    }\n}"
+          }
+        ]
+      }
+    }
+  }
+}
